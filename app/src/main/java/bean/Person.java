@@ -8,19 +8,26 @@ public class Person {
     private long _id;
     private String id;
     private String name;
+    private String password;
 
 
-    public Person(long _id, String id, String name) {
+    public Person(long _id, String id, String name,String password) {
         this._id = _id;
         this.id = id;
         this.name = name;
+        this.password = password;
     }
 
-    public Person(String id, String name) {
+    public Person(String id, String password) {
+        this.id = id;
+        this.password = password;
+    }
+
+    public  Person(String id,String name, String password){
         this.id = id;
         this.name = name;
+        this.password = password;
     }
-
     public long get_id() {
         return _id;
     }
@@ -43,5 +50,17 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String toString(){
+        return "_id:"+id+"\nId:"+id+"\nname:"+name+"\npassword:"+password;
     }
 }
