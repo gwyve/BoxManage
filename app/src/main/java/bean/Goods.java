@@ -1,25 +1,30 @@
 package bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/7/19.
  */
-public class Goods {
+public class Goods implements Serializable {
 
     private long _id;
+    private String id;
     private String vendor;
     private String model;
     private String type;
     private String memo;
 
-    public Goods(long _id, String vendor, String model, String type, String memo) {
+    public Goods(long _id, String id,String vendor, String model, String type, String memo) {
         this._id = _id;
+        this.id = id;
         this.vendor = vendor;
         this.model = model;
         this.type = type;
         this.memo = memo;
     }
 
-    public Goods(String vendor, String model, String type, String memo) {
+    public Goods(String id,String vendor, String model, String type, String memo) {
+        this.id = id;
         this.vendor = vendor;
         this.model = model;
         this.type = type;
@@ -32,6 +37,14 @@ public class Goods {
 
     public void set_id(long _id) {
         this._id = _id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getVendor() {
@@ -64,5 +77,9 @@ public class Goods {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public String toString(){
+        return vendor+" "+model+" "+type+" "+memo;
     }
 }

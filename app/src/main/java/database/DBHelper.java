@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS person" +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT, id VARCHAR, name VARCHAR, password VARCHAR)");
         db.execSQL("CREATE TABLE IF NOT EXISTS goods" +
-                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, vendor VARCHAR," +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, id VARCHAR, vendor VARCHAR," +
                 "model VARCHAR, type VARCHAR, memo VARCHAR)");
         db.execSQL("CREATE TABLE IF NOT EXISTS item" +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT, time VARCHAR, goodsid VARCHAR, personid VARCHAR," +

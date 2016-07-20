@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import bean.Person;
 import database.DBManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -48,18 +47,29 @@ public class LoginActivity extends AppCompatActivity {
 
         if (sharedPreferences.getBoolean("AUTO",false)){
             if (dbm.loginPerson(sharedPreferences.getString("ID",""),sharedPreferences.getString("PASSWORD", ""))){
-                Intent intent = new Intent(LoginActivity.this,ChooseActivity.class);
-                startActivity(intent);
-                LoginActivity.this.finish();
+                if (sharedPreferences.getString("ID","").equals(R.string.super_id)){
+                    Intent intent = new Intent(LoginActivity.this,UserManageActivity.class);
+                    startActivity(intent);
+                    LoginActivity.this.finish();
+                }else {
+                    Intent intent = new Intent(LoginActivity.this,ChooseActivity.class);
+                    startActivity(intent);
+                    LoginActivity.this.finish();
+                }
             }
         }
 
+        if (sharedPreferences.getBoolean("REMEMBER",false)){
+            idText.setText(sharedPreferences.getString("ID",""));
+            psdText.setText(sharedPreferences.getString("PASSWORD",""));
+        }
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (dbm.loginPerson(idText.getText().toString(),psdText.getText().toString())){
                     if (rememberBtn.isChecked()){
+                        editor.putBoolean("REMEMBER",true);
                         editor.putString("ID",idText.getText().toString());
                         editor.putString("PASSWORD",psdText.getText().toString());
                         editor.commit();
@@ -68,9 +78,15 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putBoolean("AUTO",true);
                         editor.commit();
                     }
-                    Intent intent = new Intent(LoginActivity.this,ChooseActivity.class);
-                    startActivity(intent);
-                    LoginActivity.this.finish();
+                    if (idText.getText().toString().equals(R.string.super_id)){
+                        Intent intent = new Intent(LoginActivity.this,UserManageActivity.class);
+                        startActivity(intent);
+                        LoginActivity.this.finish();
+                    }else{
+                        Intent intent = new Intent(LoginActivity.this,ChooseActivity.class);
+                        startActivity(intent);
+                        LoginActivity.this.finish();
+                    }
                 }else{
                     dialog("密码错误");
                     psdText.setText("");

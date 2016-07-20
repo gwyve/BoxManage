@@ -9,7 +9,10 @@ import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
+import bean.Goods;
 import bean.Person;
 
 /**
@@ -31,6 +34,7 @@ public class DBManager {
         values.put("password",person.getPassword());
         long _id = db.insert("person",null,values);
         person.set_id(_id);
+        db.close();
         return person;
     }
 
@@ -45,6 +49,7 @@ public class DBManager {
             Person person = new Person((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("id")),c.getString(c.getColumnIndex("name")),c.getString(c.getColumnIndex("password")));
             persons.add(person);
         }
+        c.close();
         return persons;
     }
 
@@ -55,15 +60,52 @@ public class DBManager {
             Person person = new Person((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("id")),c.getString(c.getColumnIndex("name")),c.getString(c.getColumnIndex("password")));
             persons.add(person);
         }
+        c.close();
         return persons;
     }
 
     public boolean loginPerson(String id,String password) {
-        Cursor c = db.query("person",new String[]{"password"},"id=?",new String[]{id},null,null,null);
+        Cursor c = db.query("person", new String[]{"password"}, "id=?", new String[]{id}, null, null, null);
         while (c.moveToNext()){
             if (password.equals(c.getString(c.getColumnIndex("password"))))
                 return true;
         }
+        c.close();
         return false;
     }
+
+    public Goods addGoods(Goods goods){
+        ContentValues values = new ContentValues();
+        values.put("id", goods.getId());
+        values.put("vendor",goods.getVendor());
+        values.put("model",goods.getModel());
+        values.put("type", goods.getType());
+        values.put("memo", goods.getMemo());
+        long _id = db.insert("goods",null,values);
+        goods.set_id(_id);
+        db.close();
+        return goods;
+    }
+
+    public int deleteGoods(Goods goods){
+        return db.delete("goods", "id=?", new String[]{String.valueOf(goods.get_id())});
+    }
+
+    public List<Goods> queryGoods(){
+        LinkedList<Goods> goodses = new LinkedList<Goods>();
+        Cursor c = db.rawQuery("SELECT * FROM goods",null);
+        while (c.moveToNext()){
+            Goods goods = new Goods((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("id")),
+                    c.getString(c.getColumnIndex("vendor")),c.getString(c.getColumnIndex("model")),c.getString(c.getColumnIndex("type")),
+                    c.getString(c.getColumnIndex("memo")));
+            goodses.add(goods);
+        }
+        c.close();
+        return goodses;
+    }
+
+
+
+
+
 }
