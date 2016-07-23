@@ -7,33 +7,31 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ve.boxmanage.UserManageActivity">
-
+    tools:context="com.ve.boxmanage.UserChooseActvity">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="取消修改"
-        android:id="@+id/userManageActBtn1"
+        android:text="管理账户"
+        android:id="@+id/userChooseActManagetBtn"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" "
-        android:id="@+id/userManageActView"
-        android:layout_below="@+id/userManageActBtn1"
+        android:text="  "
+        android:id="@+id/userChooseActTextView"
+        android:layout_below="@+id/userChooseActManagetBtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/userManageActTableLayout"
-        android:layout_below="@+id/userManageActView"
+        android:layout_below="@+id/userChooseActTextView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"></TableLayout>
+        android:layout_alignParentStart="true"
+        android:id="@+id/userChooseActTableLayout"></TableLayout>
 </RelativeLayout>

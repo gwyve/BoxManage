@@ -44,9 +44,12 @@
         <activity android:name=".RecordActivity" />
         <activity
             android:name=".GoodsAddActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".BoxChooseActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".UserChooseActvity"
             android:screenOrientation="landscape"></activity>
     </application>
 

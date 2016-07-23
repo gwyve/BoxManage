@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import bean.Goods;
+import bean.Item;
 import bean.Person;
 
 /**
@@ -27,11 +28,17 @@ public class DBManager {
         db = helper.getWritableDatabase();
     }
 
+    public long addPerson(String name){
+        ContentValues values = new ContentValues();
+        values.put("name",name);
+        return db.insert("person",null,values);
+    }
+
     public Person addPerson(Person person){
         ContentValues values = new ContentValues();
-        values.put("id",person.getId());
+//        values.put("id",person.getId());
         values.put("name",person.getName());
-        values.put("password",person.getPassword());
+//        values.put("password", person.getPassword());
         long _id = db.insert("person",null,values);
         person.set_id(_id);
         db.close();
@@ -39,15 +46,18 @@ public class DBManager {
     }
 
     public int deletePerson(Person person){
-        return db.delete("person", "id=?", new String[]{String.valueOf(person.get_id())});
+        return db.delete("person", "_id=?", new String[]{String.valueOf(person.get_id())});
     }
 
     public List<Person> queryPerson(){
         LinkedList<Person> persons = new LinkedList<Person>();
         Cursor c = db.rawQuery("SELECT * FROM person",null);
         while (c.moveToNext()){
-            Person person = new Person((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("id")),c.getString(c.getColumnIndex("name")),c.getString(c.getColumnIndex("password")));
+            Person person = new Person((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("name")));
             persons.add(person);
+//            Person person = new Person((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("id")),c.getString(c.getColumnIndex("name")),c.getString(c.getColumnIndex("password")));
+//            Person person = new Per
+//            persons.add(person);
         }
         c.close();
         return persons;
@@ -57,7 +67,9 @@ public class DBManager {
         LinkedList<Person> persons = new LinkedList<Person>();
         Cursor c = db.rawQuery("SELECT * FROM person where _id = ?", new String[]{Long.toString(_id)});
         while (c.moveToNext()) {
-            Person person = new Person((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("id")),c.getString(c.getColumnIndex("name")),c.getString(c.getColumnIndex("password")));
+//            Person person = new Person((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("id")),c.getString(c.getColumnIndex("name")),c.getString(c.getColumnIndex("password")));
+//            persons.add(person);
+            Person person = new Person((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("name")));
             persons.add(person);
         }
         c.close();
@@ -102,6 +114,20 @@ public class DBManager {
         }
         c.close();
         return goodses;
+    }
+
+    public Item addItem(Item item){
+        ContentValues values = new ContentValues();
+        values.put("_id",item.get_id());
+        values.put("time",item.getTime());
+        values.put("goodsid",item.getGoodsid());
+        values.put("personid",item.getPersonid());
+        values.put("box",item.getBox());
+        values.put("action",item.getAction());
+        values.put("memo",item.getMemo());
+        long _id = db.insert("item",null,values);
+        item.set_id(_id);
+        return item;
     }
 
 

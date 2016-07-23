@@ -44,7 +44,7 @@ public class UserAddActivity extends AppCompatActivity {
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Person person = new Person(idText.getText().toString(),nameText.getText().toString(),psdText.getText().toString());
+                Person person = new Person(nameText.getText().toString());
                 person = dbm.addPerson(person);
                 if ((Long)person.get_id() !=null)
                     dialog("添加成功");
@@ -66,4 +66,6 @@ public class UserAddActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
+
+
 }
