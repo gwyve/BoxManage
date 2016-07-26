@@ -9,20 +9,128 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ve.boxmanage.PutinActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="添加物品种类"
-        android:id="@+id/putinActGoodsAddButton"
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/putinActListView"
-        android:layout_below="@+id/putinActGoodsAddButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="返回"
+            android:id="@+id/putinActBackBtn" />
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="品牌"
+                        android:id="@+id/putinActVendorTextView"
+                        android:layout_column="0" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="必填"
+                        android:id="@+id/putinActVendorEditText"
+                        android:layout_column="1" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="型号"
+                        android:id="@+id/putinActModelTextView"
+                        android:layout_column="0" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="必填"
+                        android:id="@+id/putinActModelEditText"
+                        android:layout_column="1" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="类型"
+                        android:id="@+id/putinActTypeTextView"
+                        android:layout_column="0" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="必填"
+                        android:id="@+id/putinActTypeEditText"
+                        android:layout_column="1" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="备注"
+                        android:id="@+id/putinActMemoEditText"
+                        android:layout_column="1" />
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/putinActSubBtn"
+                    android:text="-"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:id="@+id/putinActNumberTextView" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/putinActPlusBtn"
+                    android:text="+"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下一步"
+            android:id="@+id/putinActNextBtn" />
+    </LinearLayout>
 </RelativeLayout>

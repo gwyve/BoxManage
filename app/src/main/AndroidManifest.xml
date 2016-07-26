@@ -50,7 +50,9 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".UserChooseActvity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
+        <activity android:name=".BoxContentActivity" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

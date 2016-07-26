@@ -1,9 +1,9 @@
 package com.ve.boxmanage;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -51,7 +51,6 @@ public class UserChooseActvity extends AppCompatActivity {
         fresh();
     }
 
-
     protected void fresh(){
         tableLayout.removeAllViews();
         persons = dbm.queryPerson();
@@ -60,17 +59,39 @@ public class UserChooseActvity extends AppCompatActivity {
         for(rowIndex = 0; rowIndex <persons.size() /5; rowIndex++){
             TableRow tableRow = new TableRow(this);
             for (colIndex = 0; colIndex < 5 ;colIndex++){
-                Button button = new UserButton(this,persons.get(rowIndex*5+colIndex));
+                final UserButton button = new UserButton(this,persons.get(rowIndex*5+colIndex));
+                button.setBackgroundResource(R.drawable.user_choose_act_user_btn);
+                button.setOnClickListener(new UserButtonListener(button.person));
                 tableRow.addView(button);
             }
             tableLayout.addView(tableRow);
         }
         TableRow tableRow = new TableRow(this);
         for (int index = rowIndex*5;index<persons.size();index++){
-            Button button = new UserButton(this,persons.get(index));
+            final UserButton button = new UserButton(this,persons.get(index));
+            button.setBackgroundResource(R.drawable.user_choose_act_user_btn);
+            button.setOnClickListener(new UserButtonListener(button.person));
             tableRow.addView(button);
         }
         tableLayout.addView(tableRow);
+    }
 
+    protected class UserButtonListener implements View.OnClickListener{
+        Person person;
+
+        UserButtonListener(Person person){
+               this.person = person;
+        }
+        @Override
+        public void onClick(View v) {
+            SharedPreferences sp = UserChooseActvity.this.getSharedPreferences("BOXMANAGE",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putLong("Person_id", person.get_id());
+            editor.putString("PersonName", person.getName());
+            editor.commit();
+            Intent intent = new Intent(UserChooseActvity.this,ChooseActivity.class);
+            startActivity(intent);
+            UserChooseActvity.this.finish();
+        }
     }
 }

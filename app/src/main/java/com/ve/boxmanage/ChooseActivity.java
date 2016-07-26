@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import bean.Person;
 
 public class ChooseActivity extends AppCompatActivity {
 
@@ -17,6 +20,7 @@ public class ChooseActivity extends AppCompatActivity {
     Button logoutBtn;
 
     SharedPreferences sharedPreferences;
+    Person person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,9 @@ public class ChooseActivity extends AppCompatActivity {
         recordBtn = (Button)findViewById(R.id.chooseActRecordButton);
         logoutBtn = (Button)findViewById(R.id.chooseActlogoutButton);
 
-        sharedPreferences = this.getSharedPreferences("userInfo", Context.MODE_WORLD_WRITEABLE);
+        sharedPreferences = this.getSharedPreferences("BOXMANAGE", MODE_PRIVATE);
+
+        person = new Person(Long.valueOf(sharedPreferences.getLong("Person_id",-1)),sharedPreferences.getString("PersonName",null));
 
         takeoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +48,7 @@ public class ChooseActivity extends AppCompatActivity {
         putinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChooseActivity.this,PutinActivity.class);
+                Intent intent = new Intent(ChooseActivity.this, PutinActivity.class);
                 startActivity(intent);
             }
         });
@@ -63,6 +69,10 @@ public class ChooseActivity extends AppCompatActivity {
             }
         });
 
+
+        Log.e("111",person.getName());
+
+        logoutBtn.setText("登出"+person.getName());
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,4 +81,6 @@ public class ChooseActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

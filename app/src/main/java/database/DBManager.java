@@ -7,11 +7,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import bean.Box;
 import bean.Goods;
 import bean.Item;
 import bean.Person;
@@ -116,22 +118,160 @@ public class DBManager {
         return goodses;
     }
 
+
+
+
     public Item addItem(Item item){
         ContentValues values = new ContentValues();
-        values.put("_id",item.get_id());
         values.put("time",item.getTime());
-        values.put("goodsid",item.getGoodsid());
-        values.put("personid",item.getPersonid());
+        values.put("goodsid",item.getGoodsId());
+        values.put("vendor",item.getVendor());
+        values.put("model",item.getModel());
+        values.put("type",item.getType());
+        values.put("memo",item.getMemo());
+        values.put("person_id",item.getPerson_id());
+        values.put("personname",item.getPersonName());
         values.put("box",item.getBox());
         values.put("action",item.getAction());
-        values.put("memo",item.getMemo());
-        long _id = db.insert("item",null,values);
+        values.put("explain",item.getExplain());
+        values.put("number",item.getNumber());
+        long _id = db.insert("item", null, values);
         item.set_id(_id);
         return item;
     }
 
+    public List<Item> queryItem(){
+        List<Item> list = new LinkedList<Item>();
+        Cursor c = db.rawQuery("SELECT * FROM item", null);
+        while (c.moveToNext()){
+            Item item = new Item((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("time")),c.getString(c.getColumnIndex("goodsid")),
+                    c.getString(c.getColumnIndex("vendor")),c.getString(c.getColumnIndex("model")),c.getString(c.getColumnIndex("type")),
+                    c.getString(c.getColumnIndex("memo")),c.getString(c.getColumnIndex("person_id")),c.getString(c.getColumnIndex("personname")),
+                    c.getString(c.getColumnIndex("box")),c.getString(c.getColumnIndex("action")),c.getString(c.getColumnIndex("explain")),
+                    c.getInt(c.getColumnIndex("number")));
+            list.add(item);
+        }
+        c.close();
+        return list;
+    }
+
+    public List<Item> queryItemByBox(String box){
+        List<Item> list = new LinkedList<Item>();
+        Cursor c = db.query("item", new String[]{"box"}, "id=?", new String[]{box}, null, null, null);
+        while (c.moveToNext()){
+            Item item = new Item((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("time")),c.getString(c.getColumnIndex("goodsid")),
+                    c.getString(c.getColumnIndex("vendor")),c.getString(c.getColumnIndex("model")),c.getString(c.getColumnIndex("type")),
+                    c.getString(c.getColumnIndex("memo")),c.getString(c.getColumnIndex("person_id")),c.getString(c.getColumnIndex("personname")),
+                    c.getString(c.getColumnIndex("box")),c.getString(c.getColumnIndex("action")),c.getString(c.getColumnIndex("explain")),
+                    c.getInt(c.getColumnIndex("number")));
+            list.add(item);
+        }
+        c.close();
+        return list;
+    }
+
+    public List<Item> queryItemGroupByBoxType(){
+        List<Item> list = new LinkedList<Item>();
+        Cursor c = db.rawQuery("SELECT box,type,SUM(number) FROM item GROUP BY box,type ORDER BY box", null);
+        while (c.moveToNext()){
+            Item item = new Item(c.getString(c.getColumnIndex("box")),c.getString(c.getColumnIndex("type")),c.getInt(c.getColumnIndex("SUM(number)")));
+            list.add(item);
+        }
+        c.close();
+        return list;
+    }
 
 
+    public Box addBox(Box box){
+        ContentValues values = new ContentValues();
+        values.put("box",box.getBox());
+        values.put("goodsid",box.getGoodsId());
+        values.put("vendor",box.getVendor());
+        values.put("model",box.getModel());
+        values.put("type",box.getType());
+        values.put("memo",box.getMemo());
+        values.put("number",box.getNumber());
+        long _id = db.insert("box", null, values);
+        box.set_id(_id);
+        db.close();
+        return box;
+    }
 
+    public  List<Box> queryBox(){
+        List<Box> list = new LinkedList<Box>();
+        Cursor c = db.rawQuery("SELECT * FROM box ORDER BY box ASC", null);
+        while (c.moveToNext()){
+            Box box = new Box((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("box")), c.getString(c.getColumnIndex("goodsid")),
+                    c.getString(c.getColumnIndex("vendor")), c.getString(c.getColumnIndex("model")),c.getString(c.getColumnIndex("type")),
+                    c.getString(c.getColumnIndex("memo")),c.getInt(c.getColumnIndex("number")));
+            list.add(box);
+        }
+        c.close();
+        return list;
+    }
 
+    public boolean putin(Item item){
+
+        ContentValues itemValues = new ContentValues();
+        ContentValues boxValues = new ContentValues();
+        itemValues.put("time",item.getTime());
+        itemValues.put("goodsid",item.getGoodsId());
+        itemValues.put("vendor",item.getVendor());
+        itemValues.put("model",item.getModel());
+        itemValues.put("type",item.getType());
+        itemValues.put("memo",item.getMemo());
+        itemValues.put("person_id",item.getPerson_id());
+        itemValues.put("personname",item.getPersonName());
+        itemValues.put("box",item.getBox());
+        itemValues.put("action",item.getAction());
+        itemValues.put("explain",item.getExplain());
+        itemValues.put("number", item.getNumber());
+
+        Cursor c = db.rawQuery("SELECT number FROM box WHERE box=? AND goodsid=?",new String[]{item.getBox(),item.getGoodsId()});
+        if (c.getCount()>0){
+            c.moveToNext();
+            boxValues.put("number", c.getInt(c.getColumnIndex("number")) + item.getNumber());
+            db.beginTransaction();
+            try {
+                db.insert("item", null, itemValues);
+                db.update("box", boxValues, "box=? AND goodsid=?", new String[]{item.getBox(), item.getGoodsId()});
+                db.setTransactionSuccessful();
+                return true;
+            }finally {
+                c.close();
+                db.endTransaction();
+            }
+        }else {
+            boxValues.put("box",item.getBox());
+            boxValues.put("goodsid", item.getGoodsId());
+            boxValues.put("vendor",item.getVendor());
+            boxValues.put("model",item.getModel());
+            boxValues.put("type",item.getType());
+            boxValues.put("memo",item.getMemo());
+            boxValues.put("number", item.getNumber());
+            db.beginTransaction();
+            try {
+                db.insert("item",null,itemValues);
+                db.insert("box",null,boxValues);
+                db.setTransactionSuccessful();
+                return true;
+            }finally {
+                c.close();
+                db.endTransaction();
+            }
+        }
+    }
+
+    public List<Box> queryBoxBybox(String boxid){
+        List<Box> boxes = new LinkedList<Box>();
+        Cursor c = db.rawQuery("SELECT *  FROM box WHERE box=?", new String[]{boxid});
+        while (c.moveToNext()){
+            Box box = new Box((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("box")),c.getString(c.getColumnIndex("goodsid")),
+                    c.getString(c.getColumnIndex("vendor")),c.getString(c.getColumnIndex("model")),c.getString(c.getColumnIndex("type")),
+                    c.getString(c.getColumnIndex("memo")),c.getInt(c.getColumnIndex("number")));
+            boxes.add(box);
+        }
+        c.close();
+        return boxes;
+    }
 }

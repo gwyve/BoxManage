@@ -60,6 +60,7 @@ public class UserManageActivity extends AppCompatActivity {
             TableRow tableRow = new TableRow(this);
             for (colIndex = 0; colIndex < 5 ;colIndex++){
                 final UserButton button = new UserButton(this,persons.get(rowIndex*5+colIndex));
+                button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -73,6 +74,7 @@ public class UserManageActivity extends AppCompatActivity {
         TableRow tableRow = new TableRow(this);
         for (int index = rowIndex*5;index<persons.size();index++){
             final UserButton button = new UserButton(this,persons.get(index));
+            button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -84,7 +86,7 @@ public class UserManageActivity extends AppCompatActivity {
         tableLayout.addView(tableRow);
         tableRow = new TableRow(this);
         Button button = new Button(this);
-        button.setText("添加用户");
+        button.setBackgroundResource(R.drawable.user_manage_act_user_add_btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +124,7 @@ public class UserManageActivity extends AppCompatActivity {
     protected  void userDeleteDialog(final Person person){
         AlertDialog.Builder builder = new AlertDialog.Builder(UserManageActivity.this);
         builder.setMessage("确定要删除"+person.getName());
+
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

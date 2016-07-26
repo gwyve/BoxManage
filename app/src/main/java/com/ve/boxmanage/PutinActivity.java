@@ -1,126 +1,109 @@
 package com.ve.boxmanage;
 
-import android.content.Context;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import bean.Goods;
-import database.DBManager;
+import Util.Util;
+import java.util.Date;
+import bean.Item;
+import bean.Person;
 
 public class PutinActivity extends AppCompatActivity {
 
-    private Button goodsAddBtn;
-    private ListView listView;
-    List<Goods> dbList;
+    Button backBtn;
+    EditText vendorText;
+    EditText modelText;
+    EditText typeText;
+    EditText memoText;
+    Button subBtn;
+    Button plusBtn;
+    TextView numberText;
+    Button nextBtn;
 
-    DBManager dbm;
+    Person person;
+    Item item;
+
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_putin);
 
-        goodsAddBtn = (Button)findViewById(R.id.putinActGoodsAddButton);
-        listView = (ListView)findViewById(R.id.putinActListView);
-        dbm = new DBManager(this);
-        dbList = dbm.queryGoods();
-        List<Map<String,Object>> list = getData();
+        backBtn = (Button) findViewById(R.id.putinActBackBtn);
+        vendorText = (EditText) findViewById(R.id.putinActVendorEditText);
+        modelText = (EditText) findViewById(R.id.putinActModelEditText);
+        typeText = (EditText) findViewById(R.id.putinActTypeEditText);
+        memoText = (EditText) findViewById(R.id.putinActMemoEditText);
+        subBtn = (Button) findViewById(R.id.putinActSubBtn);
+        plusBtn = (Button) findViewById(R.id.putinActPlusBtn);
+        numberText = (TextView) findViewById(R.id.putinActNumberTextView);
+        nextBtn = (Button) findViewById(R.id.putinActNextBtn);
 
+        sharedPreferences = this.getSharedPreferences("BOXMANAGE", MODE_PRIVATE);
 
-        listView.setAdapter(new MyAdaptr(this, getData()));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(PutinActivity.this,BoxChooseActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("goods",dbList.get((int)id));
-                intent.putExtra("bundle",bundle);
-                startActivity(intent);
-            }
-        });
+        person = new Person(Long.valueOf(sharedPreferences.getLong("Person_id", -1)), sharedPreferences.getString("PersonName", null));
 
-        goodsAddBtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PutinActivity.this, GoodsAddActivity.class);
-                startActivity(intent);
                 PutinActivity.this.finish();
             }
         });
-    }
+        backBtn.setFocusable(true);
+        backBtn.requestFocus();
 
-    public List<Map<String,Object>> getData(){
-        List<Map<String ,Object>>  list= new LinkedList<Map<String,Object>>();
-        for (int i = 0;i<dbList.size();i++){
-            Map<String ,Object> map = new HashMap<String, Object>();
-            map.put("title",dbList.get(i).toString());
-            list.add(map);
-        }
-        return list;
-    }
-
-
-
-
-
-    public class MyAdaptr extends BaseAdapter{
-
-        private List<Map<String,Object>> data;
-        private LayoutInflater layoutInflater;
-        private Context context;
-
-        public MyAdaptr(Context context,List<Map<String,Object>> data){
-            this.context = context;
-            this.data = data;
-            this.layoutInflater = LayoutInflater.from(context);
-        }
-
-        public final class Component{
-            public TextView title;
-        }
-
-        @Override
-        public int getCount() {
-            return data.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return data.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Component component = null;
-            if (convertView == null){
-                component = new Component();
-                convertView = layoutInflater.inflate(R.layout.adapter_putin,null);
-                component.title = (TextView)convertView.findViewById(R.id.adapterPutinTextView);
-                convertView.setTag(component);
-            }else {
-                component = (Component)convertView.getTag();
+        subBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int number = Integer.parseInt(numberText.getText().toString());
+                if (number == 0 || number == 1) {
+                    subBtn.setClickable(false);
+                    numberText.setText(0 + "");
+                } else {
+                    number--;
+                    numberText.setText(number + "");
+                }
             }
-            component.title.setText((String)data.get(position).get("title"));
-            return convertView;
-        }
+        });
+        plusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int number = Integer.parseInt(numberText.getText().toString());
+                number++;
+                subBtn.setClickable(true);
+                numberText.setText(number + "");
+            }
+        });
+
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item = new Item( vendorText.getText().toString(), modelText.getText().toString(), typeText.getText().toString(),
+                        memoText.getText().toString(), person, "putin", Integer.parseInt(numberText.getText().toString()));
+                Intent intent = new Intent(PutinActivity.this, BoxChooseActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("item", item);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        ActivityManagerApplication.addDestoryActivity(PutinActivity.this,"PutinAct");
+
     }
+
+
+
+
 }

@@ -13,17 +13,17 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="取消修改"
         android:id="@+id/userManageActBtn1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@drawable/user_manage_act_back_btn"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" "
+        android:text="   "
         android:id="@+id/userManageActView"
         android:layout_below="@+id/userManageActBtn1"
         android:layout_alignParentLeft="true"

@@ -7,8 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ve.boxmanage.BoxChooseActivity">
-
+    tools:context="com.ve.boxmanage.BoxContentActivity">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -22,12 +21,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" "
-            android:background="@drawable/back_btn"
-            android:id="@+id/boxChooseActBackBtn" />
+            android:background="@drawable/box_content_act_back_btn"
+            android:id="@+id/boxContentActBackBtn" />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/boxChooseActListView"></ListView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:id="@+id/boxContentActTextView" />
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxContentActListView" />
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

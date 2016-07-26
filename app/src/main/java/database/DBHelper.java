@@ -29,8 +29,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT, id VARCHAR, vendor VARCHAR," +
                 "model VARCHAR, type VARCHAR, memo VARCHAR)");
         db.execSQL("CREATE TABLE IF NOT EXISTS item" +
-                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, time VARCHAR, goodsid VARCHAR, personid VARCHAR," +
-                "box VARCHAR, action VARCHAR, memo VARCHAR)");
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, time VARCHAR, goodsid VARCHAR, vendor VARCHAR, " +
+                "model VARCHAR, type VARCHAR, memo VARCHAR, person_id VARCHAR, personname VARCHAR,box VARCHAR," +
+                "action VARCHAR, explain VARCHAR, number INTEGER)" );
+        db.execSQL("CREATE TABLE IF NOT EXISTS box" +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, box VARCHAR, goodsid VARCHAR, vendor VARCHAR, model VARCHAR," +
+                "type VARCHAR,memo VARCHAR,number INTEGER)");
     }
 
     @Override
@@ -38,5 +42,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE person ADD COLUMN other STRING");
         db.execSQL("ALTER TABLE goods ADD COLUMN other STRING");
         db.execSQL("ALTER TABLE item ADD COLUMN other STRING");
+        db.execSQL("ALTER TABLE box ADD COLUMN other STRING");
     }
 }
