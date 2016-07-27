@@ -1,9 +1,11 @@
 package bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/7/25.
  */
-public class Box {
+public class Box implements Serializable{
     private long _id;
     private String box;
     private String goodsId;

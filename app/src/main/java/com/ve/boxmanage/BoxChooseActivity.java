@@ -169,7 +169,7 @@ public class BoxChooseActivity extends AppCompatActivity {
     }
 
 
-    public class MyAdapter extends BaseAdapter{
+    private class MyAdapter extends BaseAdapter{
 
         private List<Map<String,Object>> data;
         private LayoutInflater layoutInflater;

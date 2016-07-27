@@ -39,7 +39,7 @@ public class BoxContentActivity extends AppCompatActivity {
 
         dbm = new DBManager(this);
         boxid = getIntent().getIntExtra("boxid",-1);
-        boxes = dbm.queryBoxBybox("" + boxid);
+        boxes = dbm.queryBoxByBox("" + boxid);
         Log.e("111",boxes.toString());
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +70,7 @@ public class BoxContentActivity extends AppCompatActivity {
 
 
 
-    public class MyAdapter extends BaseAdapter{
+    private class MyAdapter extends BaseAdapter{
         private List<String> data;
         private LayoutInflater layoutInflater;
         private Context context;

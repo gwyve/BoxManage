@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ve.boxmanage.RecordActivity">
+    tools:context="com.ve.boxmanage.GoodsShowActivity">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -22,51 +22,49 @@
             android:layout_height="wrap_content"
             android:text=" "
             android:background="@drawable/back_btn"
-            android:id="@+id/recordActBackBtn" />
-
+            android:id="@+id/goodsShowActBackBtn" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <TableLayout
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/recordActTableLayout">
-            </TableLayout>
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/goodsShowActBoxidTextView" />
 
-
-            <LinearLayout
-                android:orientation="horizontal"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/previous_btn"
-                    android:id="@+id/recordActPreviousPageBtn"/>
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/goodsShowActVendorTextView" />
 
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/recordActPageEditView"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/next_page_btn"
-                    android:id="@+id/recordActNextPageBtn"/>
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/goodsShowActModelTextView" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/goodsShowActTypeTextView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/goodsShowActMemoTextView" />
         </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" "
-            android:background="@drawable/export_btn"
-            android:id="@+id/recordActExportBtn" />
+            android:background="@drawable/goods_show_act_next_btn"
+            android:id="@+id/goodsShowActNextBtn" />
     </LinearLayout>
 </RelativeLayout>

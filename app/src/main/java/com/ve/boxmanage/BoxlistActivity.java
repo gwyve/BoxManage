@@ -78,7 +78,7 @@ public class BoxlistActivity extends AppCompatActivity {
     }
 
 
-    protected class ButtonData{
+    private class ButtonData{
         int boxid;
         String title ="";
         int titleNum=0;

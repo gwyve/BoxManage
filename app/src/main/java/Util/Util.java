@@ -7,6 +7,6 @@ import java.text.SimpleDateFormat;
  */
 public class Util {
     public static SimpleDateFormat getDataFormat(){
-        return new SimpleDateFormat("yyyy-MM-dd_HH;mm:ss");
+        return new SimpleDateFormat("yyyy.MM.dd_HH:mm");
     }
 }

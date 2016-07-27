@@ -40,7 +40,7 @@ public class ChooseActivity extends AppCompatActivity {
         takeoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChooseActivity.this,TakeoutActivity.class);
+                Intent intent = new Intent(ChooseActivity.this,SearchActivity.class);
                 startActivity(intent);
             }
         });

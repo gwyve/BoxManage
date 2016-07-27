@@ -1,16 +1,15 @@
 package Util;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import bean.Item;
 import jxl.Workbook;
-import jxl.read.biff.BiffException;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
@@ -23,23 +22,36 @@ public class ExcelUtil {
 
     public static void itemExport(String filePath,String fileName,List<Item> list){
         try {
-            String[] array = new String[]{"日期","时间","品牌","类型","型号","操作者","箱柜号","动作/去向"};
-            List<String> titleList = new LinkedList<String>(Arrays.asList(array));
-            File file = new File((filePath+"\\"+fileName));
-            if (!file.isFile())
-                file.createNewFile();
+            Log.e("111",filePath);
+            String[] tileArray = new String[]{"日期","时间","品牌","型号","类型","操作者","箱柜号","动作/去向"};
+            File file = new File((filePath+"/"+fileName));
+            Log.e("111",file.toString());
+            if (file.exists())
+                file.delete();
+            boolean b = file.createNewFile();
+            Log.e("111", b + "");
             OutputStream os = new FileOutputStream(file);
             WritableWorkbook book = Workbook.createWorkbook(os);
             WritableSheet sheet = book.createSheet("存取记录", 0);
-            for (int j = 0; j < titleList.size(); j++){
-                Label label = new Label(j,0,titleList.get(j));
+            for (int j = 0; j < tileArray.length; j++){
+                Label label = new Label(j,0,tileArray[j]);
                 sheet.addCell(label);
             }
-            for (int i = 0; i < list.size(); i++) {
+            for (int i = 1; i <= list.size(); i++) {
                 Item item = list.get(i);
-                Label label0i = new Label(0,i+1,item.getTime());
-                sheet.addCell(label0i);
-
+                String[] times = item.getTime().split("_");
+                sheet.addCell(new Label(0,i,times[0]));
+                sheet.addCell(new Label(1,i,times[1]));
+                sheet.addCell(new Label(2,i,item.getVendor()));
+                sheet.addCell(new Label(3,i,item.getModel()));
+                sheet.addCell(new Label(4,i,item.getType()));
+                sheet.addCell(new Label(5,i,item.getPersonName()));
+                sheet.addCell(new Label(6,i,item.getBox()));
+                if (item.getAction().equals("putin")){
+                    sheet.addCell(new Label(7,i,"放物"));
+                }else {
+                    sheet.addCell(new Label(7,i,item.getExplain()));
+                }
             }
 
             book.write();
