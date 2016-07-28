@@ -58,13 +58,14 @@ public class PutinActivity extends AppCompatActivity {
         backBtn.setFocusable(true);
         backBtn.requestFocus();
 
+        subBtn.setClickable(false);
         subBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int number = Integer.parseInt(numberText.getText().toString());
-                if (number == 0 || number == 1) {
+                if (number == 2 || number == 1) {
                     subBtn.setClickable(false);
-                    numberText.setText(0 + "");
+                    numberText.setText(1 + "");
                 } else {
                     number--;
                     numberText.setText(number + "");

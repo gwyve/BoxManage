@@ -1,6 +1,7 @@
 package com.ve.boxmanage;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,10 +10,12 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import Util.ExcelUtil;
 import bean.Box;
 import database.DBManager;
 
@@ -65,6 +68,15 @@ public class BoxlistActivity extends AppCompatActivity {
                 tableLayout.addView(tableRow);
             }
         }
+
+        exportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Box> list = dbm.queryBox();
+                Collections.sort(list);
+                ExcelUtil.boxExport(Environment.getExternalStorageDirectory().toString(), "箱柜列表.xls", list);
+            }
+        });
 
     }
 

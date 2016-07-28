@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,BoxlistActivity.class);
-                startActivity(intent);
+
+                WindowManager wm = MainActivity.this.getWindowManager();
+                Log.e("111",wm.getDefaultDisplay().getWidth()+"***"+wm.getDefaultDisplay().getHeight());
             }
         });
     }

@@ -198,7 +198,7 @@ public class DBManager {
     }
 
     public  List<Box> queryBox(){
-        List<Box> list = new LinkedList<Box>();
+        List<Box> list = new ArrayList<Box>();
         Cursor c = db.rawQuery("SELECT * FROM box ORDER BY box ASC", null);
         while (c.moveToNext()){
             Box box = new Box((long)c.getInt(c.getColumnIndex("_id")),c.getString(c.getColumnIndex("box")), c.getString(c.getColumnIndex("goodsid")),
@@ -413,5 +413,6 @@ public class DBManager {
         c.close();
         return list;
     }
+    
 
 }

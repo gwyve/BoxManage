@@ -19,6 +19,7 @@ public class UserButton extends Button{
         super(context);
         this.person = person;
         this.setText(person.getName());
+        this.setTextSize(30);
     }
 
 

@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_gravity="center"
     tools:context="com.ve.boxmanage.ChooseActivity">
 
     <LinearLayout
@@ -20,33 +21,46 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="取物"
+            android:text=" "
+            android:layout_marginLeft="185dp"
+            android:layout_marginTop="275dp"
+            android:background="@drawable/choose_act_takeout_btn"
             android:id="@+id/chooseActTakeoutButton" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="放物"
+            android:layout_marginLeft="81dp"
+            android:layout_marginTop="275dp"
+            android:text=""
+            android:background="@drawable/choose_act_putin_btn"
             android:id="@+id/chooseActPutinButton" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="275dp"
+            android:layout_marginLeft="81dp">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="箱柜列表"
+                android:text=" "
+                android:background="@drawable/choose_act_boxlist_btn"
                 android:id="@+id/chooseActBoxListButton" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="存取记录"
+                android:text=" "
+                android:layout_marginTop="26.5dp"
+                android:background="@drawable/choose_act_record_btn"
                 android:id="@+id/chooseActRecordButton" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
+                android:layout_marginTop="26.5dp"
+                android:background="@drawable/choose_act_logout_btn"
                 android:id="@+id/chooseActlogoutButton" />
         </LinearLayout>
     </LinearLayout>

@@ -69,10 +69,8 @@ public class ChooseActivity extends AppCompatActivity {
             }
         });
 
-
-        Log.e("111",person.getName());
-
-        logoutBtn.setText("登出"+person.getName());
+        logoutBtn.setTextSize(36);
+        logoutBtn.setText("登出 ("+person.getName()+")");
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

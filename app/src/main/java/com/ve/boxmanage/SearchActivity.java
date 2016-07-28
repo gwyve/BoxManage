@@ -56,7 +56,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 List<String> list = new LinkedList<String>();
-
                 StringTokenizer st = new StringTokenizer(editText.getText().toString());
                 while (st.hasMoreElements()){
                     list.add(st.nextToken());
@@ -79,21 +78,24 @@ public class SearchActivity extends AppCompatActivity {
                     default:
                         break;
                 }
-                listView.setAdapter(new MyAdapter(SearchActivity.this,dataList));
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(SearchActivity.this, GoodsShowActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("box", dataList.get(position));
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-                });
+                if (list.size()>0){
+                    listView.setAdapter(new MyAdapter(SearchActivity.this,dataList));
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(SearchActivity.this, GoodsShowActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("box", dataList.get(position));
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    });
+                }
+
             }
         });
 
-        ActivityManagerApplication.addDestoryActivity(SearchActivity.this,"SearchAct");
+        ActivityManagerApplication.addDestoryActivity(SearchActivity.this, "SearchAct");
     }
 
 

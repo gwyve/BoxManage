@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2016/7/25.
  */
-public class Box implements Serializable{
+public class Box implements Serializable,Comparable{
     private long _id;
     private String box;
     private String goodsId;
@@ -94,5 +94,18 @@ public class Box implements Serializable{
     public String toString(){
         return "_id:" +_id+" box:"+box+" goodsid:"+goodsId+" vendor:"+ vendor +" model:" + model + " type:"
                 +type + " memo:"+memo +" number:"+number;
+    }
+
+
+    @Override
+    public int compareTo(Object another) {
+        if (Integer.parseInt(this.getBox()) < Integer.parseInt(((Box)another).getBox()))
+        {
+            return -1;
+        }else if (Integer.parseInt(this.getBox()) > Integer.parseInt(((Box)another).getBox())){
+            return 1;
+        }else {
+            return 0;
+        }
     }
 }
