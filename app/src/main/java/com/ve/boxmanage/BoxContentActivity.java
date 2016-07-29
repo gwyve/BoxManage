@@ -38,9 +38,9 @@ public class BoxContentActivity extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.boxContentActListView);
 
         dbm = new DBManager(this);
-        boxid = getIntent().getIntExtra("boxid",-1);
+        boxid = getIntent().getIntExtra("boxid", -1);
         boxes = dbm.queryBoxByBox("" + boxid);
-        Log.e("111",boxes.toString());
+        Log.e("111", boxes.toString());
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,8 +48,12 @@ public class BoxContentActivity extends AppCompatActivity {
                 BoxContentActivity.this.finish();
             }
         });
+        if (boxid>9){
+            textView.setText(String.valueOf(boxid));
+        }else {
+            textView.setText("  "+boxid);
+        }
 
-        textView.setText(boxid +"号");
 
         listView.setAdapter(new MyAdapter(this,getData(boxes)));
     }

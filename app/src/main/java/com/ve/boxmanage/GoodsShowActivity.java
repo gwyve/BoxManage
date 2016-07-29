@@ -36,7 +36,11 @@ public class GoodsShowActivity extends AppCompatActivity {
 
         box = (Box)getIntent().getSerializableExtra("box");
 
-        boxidTextView.setText(box.getBox()+"号");
+        if (Integer.parseInt(box.getBox())>9){
+            boxidTextView.setText(box.getBox());
+        }else {
+            boxidTextView.setText("  "+box.getBox());
+        }
         vendorTextView.setText(box.getVendor());
         modelTextView.setText(box.getModel());
         typeTextView.setText(box.getType());

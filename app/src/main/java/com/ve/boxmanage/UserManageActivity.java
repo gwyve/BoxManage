@@ -124,7 +124,7 @@ public class UserManageActivity extends AppCompatActivity {
         final AlertDialog dialog ;
         InputFilter[] filters = {new InputFilter.LengthFilter(5)};
         addNameTextView.setFilters(filters);
-
+        addNameTextView.setSingleLine(true);
         addNameTextView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {

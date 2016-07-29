@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.Serializable;
@@ -183,7 +185,9 @@ public class BoxChooseActivity extends AppCompatActivity {
         }
 
         public final  class  Component{
+            public RelativeLayout linearLayout;
             public TextView title;
+            public TextView boxText;
         }
 
         @Override
@@ -203,26 +207,33 @@ public class BoxChooseActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            Map<String,Object> positionData = data.get(position);
             Component component = null;
             if (convertView == null){
                 component = new Component();
                 convertView = layoutInflater.inflate(R.layout.adapter_box_choose_act,null);
+                component.linearLayout = (RelativeLayout) convertView.findViewById(R.id.adapterBoxChooseActItem);
+                component.boxText = (TextView)convertView.findViewById(R.id.adapterBoxChooseActBoxTextView);
                 component.title = (TextView)convertView.findViewById(R.id.adapterBoxChooseActTextView);
                 convertView.setTag(component);
             }else {
                 component = (Component)convertView.getTag();
             }
-
-            component.title.setText(data.get(position).get("box")+ " 号 " +(String) data.get(position).get("title"));
+            if ((Integer)positionData.get("box") >9){
+                component.boxText.setText(data.get(position).get("box").toString());
+            }else {
+                component.boxText.setText("  "+data.get(position).get("box").toString());
+            }
+            component.title.setText((String) data.get(position).get("title"));
             switch((Integer)data.get(position).get("level")){
                 case 1:
-                    component.title.setBackgroundResource(R.drawable.box_choose_act__list_item_level1);
+                    component.linearLayout.setBackgroundResource(R.drawable.box_choose_act__list_item_level1);
                     break;
                 case 2:
-                    component.title.setBackgroundResource(R.drawable.box_choose_act__list_item_level2);
+                    component.linearLayout.setBackgroundResource(R.drawable.box_choose_act__list_item_level2);
                     break;
                 case 3:
-                    component.title.setBackgroundResource(R.drawable.box_choose_act__list_item_level3);
+                    component.linearLayout.setBackgroundResource(R.drawable.box_choose_act__list_item_level3);
                     break;
             }
             return convertView;

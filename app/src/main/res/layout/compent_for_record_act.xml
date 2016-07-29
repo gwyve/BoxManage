@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="1216dp"
+    android:layout_height="54dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="1216dp"
+        android:layout_height="53dp">
+
+
+        <TextView
+            android:layout_width="128dp"
+            android:layout_height="53dp"
+            android:gravity="center"
+            android:text="New Text"
+            android:id="@+id/recordActDateText"
+            android:textSize="18dp"
+            android:textColor="#808080"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="53dp"
+            android:gravity="center"
+            android:text="New Text"
+            android:id="@+id/recordActTimeText"
+            android:textSize="18dp"
+            android:textColor="#808080"/>
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="53dp"
+            android:gravity="center"
+            android:text="New Text"
+            android:id="@+id/recordActVendorText"
+            android:textSize="18dp"
+            android:textColor="#808080"/>
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="53dp"
+            android:gravity="center"
+            android:text="New Text"
+            android:id="@+id/recordActTypeText"
+            android:textSize="18dp"
+            android:textColor="#808080"/>
+        <TextView
+            android:layout_width="190dp"
+            android:layout_height="53dp"
+            android:gravity="center"
+            android:text="New Text"
+            android:id="@+id/recordActModelText"
+            android:textSize="18dp"
+            android:textColor="#808080"/>
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="53dp"
+            android:gravity="center"
+            android:text="New Text"
+            android:id="@+id/recordActPersonText"
+            android:textSize="18dp"
+            android:textColor="#808080"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="53dp"
+            android:gravity="center"
+            android:text="New Text"
+            android:id="@+id/recordActBoxidText"
+            android:textSize="18dp"
+            android:textColor="#808080"/>
+        <TextView
+            android:layout_width="408dp"
+            android:layout_height="53dp"
+            android:gravity="center"
+            android:text="New Text"
+            android:id="@+id/recordActExplainText"
+            android:textSize="18dp"
+            android:textColor="#808080"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/grayColor"/>
+
+</LinearLayout>

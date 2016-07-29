@@ -1,5 +1,7 @@
 package com.ve.boxmanage;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +17,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import Compent.ViewForBoxlistAct;
 import Util.ExcelUtil;
 import bean.Box;
+import bean.Person;
 import database.DBManager;
 
 public class BoxlistActivity extends AppCompatActivity {
@@ -51,11 +55,11 @@ public class BoxlistActivity extends AppCompatActivity {
         for (int i = 0; i < dataList.size();i++){
             if (i%5 == 0){
                 tableRow = new TableRow(this);
+                tableRow.setPadding(0,0,0,12);
             }
             final ButtonData data = dataList.get(i);
-            Button button = new Button(this);
-            button.setText(data.boxid+"号\n"+data.title);
-            button.setOnClickListener(new View.OnClickListener() {
+            ViewForBoxlistAct view = new ViewForBoxlistAct(BoxlistActivity.this,data);
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(BoxlistActivity.this,BoxContentActivity.class);
@@ -63,7 +67,7 @@ public class BoxlistActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            tableRow.addView(button);
+            tableRow.addView(view);
             if (i%5 ==4 ){
                 tableLayout.addView(tableRow);
             }
@@ -74,7 +78,8 @@ public class BoxlistActivity extends AppCompatActivity {
             public void onClick(View v) {
                 List<Box> list = dbm.queryBox();
                 Collections.sort(list);
-                ExcelUtil.boxExport(Environment.getExternalStorageDirectory().toString(), "箱柜列表.xls", list);
+                ExcelUtil.boxExport(Environment.getDataDirectory().toString(), "箱柜列表.xls", list);
+                exportCompleteDialog(Environment.getDataDirectory().toString()+"/"+"箱柜列表.xls");
             }
         });
 
@@ -90,9 +95,9 @@ public class BoxlistActivity extends AppCompatActivity {
     }
 
 
-    private class ButtonData{
-        int boxid;
-        String title ="";
+    public class ButtonData{
+        private int boxid;
+        private String title ="";
         int titleNum=0;
         public ButtonData(int boxid){
             this.boxid = boxid;
@@ -105,8 +110,29 @@ public class BoxlistActivity extends AppCompatActivity {
                 this.title += "……";
             }
         }
+        public int getBoxid(){
+            return boxid;
+        }
+        public String getTitle(){
+            return title;
+        }
     }
 
+
+    protected  void exportCompleteDialog(String path){
+        AlertDialog.Builder builder = new AlertDialog.Builder(BoxlistActivity.this);
+        builder.setMessage("文件成功导出，路径为 \""+ path+"\" ");
+
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.show();
+    }
 
 
 }

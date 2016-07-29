@@ -15,8 +15,9 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="180dp"
-        android:layout_alignParentStart="true">
+        android:layout_marginLeft="0dp">
 
         <Button
             android:layout_width="wrap_content"
@@ -28,26 +29,29 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="217dp">
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="907dp"
+                    android:layout_height="99dp"
                     android:id="@+id/searchActEditText"
-                    android:width="526dp"
-                    android:height="99dp"
-                    android:background="@drawable/search_act_edittext"
+                    android:textSize="35dp"
+                    android:singleLine="true"
+                    android:text="搜索品牌 型号 类型 备注"
+                    android:textColor="@color/grayColor"
                     android:layout_weight="1" />
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="99dp"
+                    android:layout_height="99dp"
                     android:text=" "
+                    android:layout_marginLeft="24dp"
                     android:background="@drawable/search_act_search_btn"
                     android:id="@+id/searchActSearchBtn" />
             </LinearLayout>
@@ -55,6 +59,8 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:divider="@null"
                 android:id="@+id/searchActListView" />
         </LinearLayout>
     </LinearLayout>

@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -52,48 +56,56 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus && editText.getText().toString().equals("搜索品牌 型号 类型 备注")) ;
+                {
+                    editText.setText("");
+                    editText.setTextColor(getResources().getColor(R.color.blackColor));
+                }
+            }
+        });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                search();
+            }
+        });
+
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    closeKeyBoard(SearchActivity.this,editText);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> list = new LinkedList<String>();
-                StringTokenizer st = new StringTokenizer(editText.getText().toString());
-                while (st.hasMoreElements()){
-                    list.add(st.nextToken());
-                }
-                switch (list.size()){
-                    case 0:
-                        break;
-                    case 1:
-                        dataList = dbm.queryBoxByGoodsid(list.get(0));
-                        break;
-                    case 2:
-                        dataList = dbm.queryBoxByGoodsid(list.get(0), list.get(1));
-                        break;
-                    case 3:
-                        dataList = dbm.queryBoxByGoodsid(list.get(0), list.get(1), list.get(2));
-                        break;
-                    case 4:
-                        dataList = dbm.queryBoxByGoodsid(list.get(0),list.get(1),list.get(2),list.get(3));
-                        break;
-                    default:
-                        break;
-                }
-                if (list.size()>0){
-                    listView.setAdapter(new MyAdapter(SearchActivity.this,dataList));
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(SearchActivity.this, GoodsShowActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("box", dataList.get(position));
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                    });
-                }
-
+                search();
+                closeKeyBoard(SearchActivity.this, editText);
             }
         });
+
 
         ActivityManagerApplication.addDestoryActivity(SearchActivity.this, "SearchAct");
     }
@@ -151,6 +163,65 @@ public class SearchActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    //搜索方法，并改变listview
+    private void search(){
+        List<String> list = new LinkedList<String>();
+        StringTokenizer st = new StringTokenizer(editText.getText().toString());
+        while (st.hasMoreElements()) {
+            list.add(st.nextToken());
+        }
+        switch (list.size()) {
+            case 0:
+                break;
+            case 1:
+                dataList = dbm.queryBoxByGoodsid(list.get(0));
+                break;
+            case 2:
+                dataList = dbm.queryBoxByGoodsid(list.get(0), list.get(1));
+                break;
+            case 3:
+                dataList = dbm.queryBoxByGoodsid(list.get(0), list.get(1), list.get(2));
+                break;
+            case 4:
+                dataList = dbm.queryBoxByGoodsid(list.get(0), list.get(1), list.get(2), list.get(3));
+                break;
+            default:
+                break;
+        }
+        if (list.size() > 0) {
+            listView.setAdapter(new MyAdapter(SearchActivity.this, dataList));
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(SearchActivity.this, GoodsShowActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("box", dataList.get(position));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+        }else {
+            if (dataList != null && dataList.size()>0){
+                listView.setAdapter(new MyAdapter(SearchActivity.this,new LinkedList<Box>()));
+            }
+        }
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        closeKeyBoard(this, editText);
+        backBtn.setFocusable(true);
+        backBtn.setFocusableInTouchMode(true);
+    }
+
+    //关闭键盘
+    private void closeKeyBoard(Context context, View editText){
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
 }

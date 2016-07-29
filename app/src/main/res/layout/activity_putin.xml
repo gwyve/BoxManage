@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
     tools:context="com.ve.boxmanage.PutinActivity">
 
 
@@ -16,19 +16,23 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="180dp"
+        android:layout_marginRight="0dp">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="返回"
+            android:text=" "
+            android:background="@drawable/back_btn"
             android:id="@+id/putinActBackBtn" />
 
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="334dp">
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -41,13 +45,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="品牌"
+                        android:textSize="36dp"
+                        android:textColor="@color/blackColor"
                         android:id="@+id/putinActVendorTextView"
                         android:layout_column="0" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:width="527dp"
+                        android:height="99dp"
+                        android:singleLine="true"
                         android:text="必填"
+                        android:textSize="36dp"
+                        android:maxLength="14"
+                        android:textColor="@color/grayColor"
+                        android:layout_marginLeft="60dp"
                         android:id="@+id/putinActVendorEditText"
                         android:layout_column="1" />
                 </TableRow>
@@ -60,13 +73,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="型号"
+                        android:textSize="36dp"
+                        android:textColor="@color/blackColor"
                         android:id="@+id/putinActModelTextView"
                         android:layout_column="0" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:width="527dp"
+                        android:height="99dp"
+                        android:singleLine="true"
                         android:text="必填"
+                        android:textSize="36dp"
+                        android:maxLength="14"
+                        android:textColor="@color/grayColor"
+                        android:layout_marginLeft="60dp"
                         android:id="@+id/putinActModelEditText"
                         android:layout_column="1" />
                 </TableRow>
@@ -79,13 +101,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="类型"
+                        android:textSize="36dp"
+                        android:textColor="@color/blackColor"
                         android:id="@+id/putinActTypeTextView"
                         android:layout_column="0" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:width="527dp"
+                        android:height="99dp"
+                        android:singleLine="true"
                         android:text="必填"
+                        android:textSize="36dp"
+                        android:maxLength="14"
+                        android:textColor="@color/grayColor"
+                        android:layout_marginLeft="60dp"
                         android:id="@+id/putinActTypeEditText"
                         android:layout_column="1" />
                 </TableRow>
@@ -97,7 +128,14 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:width="527dp"
+                        android:height="282dp"
+                        android:singleLine="false"
                         android:text="备注"
+                        android:maxLength="70"
+                        android:textSize="36dp"
+                        android:textColor="@color/grayColor"
+                        android:layout_marginLeft="60dp"
                         android:id="@+id/putinActMemoEditText"
                         android:layout_column="1" />
                 </TableRow>
@@ -106,23 +144,41 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <Button
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center">
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="数量"
+                    android:singleLine="true"
+                    android:height="80dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/grayColor"
+                    android:textSize="36dp"/>
+                <Button
+                    android:layout_width="51dp"
+                    android:layout_height="51dp"
+                    android:layout_marginLeft="13dp"
+                    android:height="51dp"
                     android:id="@+id/putinActSubBtn"
-                    android:text="-"/>
+                    android:background="@drawable/putin_act_sub_btn" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1"
+                    android:textSize="28dp"
+                    android:width="50dp"
+                    android:gravity="center"
+                    android:textColor="@color/blackColor"
                     android:id="@+id/putinActNumberTextView" />
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="51dp"
+                    android:layout_height="51dp"
                     android:id="@+id/putinActPlusBtn"
-                    android:text="+"/>
+                    android:background="@drawable/putin_act_plus_btn" />
 
             </LinearLayout>
         </LinearLayout>
@@ -130,7 +186,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="下一步"
+            android:layout_marginLeft="498dp"
+            android:background="@drawable/putin_act_next_btn_1"
             android:id="@+id/putinActNextBtn" />
     </LinearLayout>
 </RelativeLayout>
