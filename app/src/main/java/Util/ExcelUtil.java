@@ -22,7 +22,7 @@ import jxl.write.biff.RowsExceededException;
  */
 public class ExcelUtil {
 
-    public static void itemExport(String filePath,String fileName,List<Item> list){
+    public static String itemExport(String filePath,String fileName,List<Item> list){
         try {
             String[] tileArray = new String[]{"日期","时间","品牌","型号","类型","备注","操作者","箱柜号","动作/去向"};
             File file = new File((filePath+"/"+fileName));
@@ -56,15 +56,17 @@ public class ExcelUtil {
 
             book.write();
             book.close();
+            return file.toString();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (WriteException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 
-    public static void boxExport(String filePath,String fileName,List<Box> list){
+    public static String boxExport(String filePath,String fileName,List<Box> list){
         try {
             String[] tileArray = new String[]{"箱柜号","品牌","型号","类型","备注","数量"};
             File file = new File((filePath+"/"+fileName));
@@ -89,6 +91,7 @@ public class ExcelUtil {
             }
             book.write();
             book.close();
+            return file.toString();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (RowsExceededException e) {
@@ -96,6 +99,7 @@ public class ExcelUtil {
         } catch (WriteException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 }

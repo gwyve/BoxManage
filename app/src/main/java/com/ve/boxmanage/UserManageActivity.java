@@ -1,6 +1,7 @@
 package com.ve.boxmanage;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,9 @@ import android.text.Selection;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -22,6 +25,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import Compent.MyAlertDialog;
+import Compent.MyAlertDialogForUserAdd;
 import Compent.UserButton;
 import bean.Person;
 import database.DBManager;
@@ -33,8 +38,6 @@ public class UserManageActivity extends AppCompatActivity {
     DBManager dbm;
     List<Person> persons;
 
-    EditText addNameTextView;
-    AlertDialog addDialog;
 
 
     @Override
@@ -61,16 +64,88 @@ public class UserManageActivity extends AppCompatActivity {
         tableLayout.removeAllViews();
 
         persons = dbm.queryPerson();
-        int rowIndex;
-        int colIndex;
-        for(rowIndex = 0; rowIndex < persons.size()/5; rowIndex++){
+
+        if (persons.size()<10){
+            if (persons.size()<5){
+                TableRow tableRow = new TableRow(this);
+                tableRow.setPadding(0,0,0,53);
+                for (int i=0;i<persons.size();i++){
+                    final UserButton button = new UserButton(this,persons.get(i));
+                    button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            userDeleteDialog(button.person);
+                        }
+                    });
+                    tableRow.addView(button);
+                    TextView textView = new TextView(this);
+                    textView.setWidth(22);
+                    tableRow.addView(textView);
+                }
+                Button button = new Button(this);
+                button.setPadding(0,8,7,15);
+                button.setBackgroundResource(R.drawable.user_manage_act_user_add_btn);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        userAddDialog();
+                    }
+                });
+                tableRow.addView(button);
+                tableLayout.addView(tableRow);
+
+            }else {
+                TableRow tableRow = new TableRow(this);
+                tableRow.setPadding(0,0,0,53);
+                for (int i=0;i<5;i++){
+                    final UserButton button = new UserButton(this,persons.get(i));
+                    button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            userDeleteDialog(button.person);
+                        }
+                    });
+                    tableRow.addView(button);
+                    TextView textView = new TextView(this);
+                    textView.setWidth(22);
+                    tableRow.addView(textView);
+                }
+                tableLayout.addView(tableRow);
+                TableRow tableRow2 = new TableRow(this);
+                for (int i=5;i<persons.size();i++){
+                    final UserButton button = new UserButton(this,persons.get(i));
+                    button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            userDeleteDialog(button.person);
+                        }
+                    });
+                    tableRow2.addView(button);
+                    TextView textView = new TextView(this);
+                    textView.setWidth(22);
+                    tableRow2.addView(textView);
+                }
+                Button button = new Button(this);
+                button.setPadding(0,8,7,15);
+                button.setBackgroundResource(R.drawable.user_manage_act_user_add_btn);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        userAddDialog();
+                    }
+                });
+                tableRow2.addView(button);
+                tableLayout.addView(tableRow2);
+            }
+        }else if (persons.size() == 10){
             TableRow tableRow = new TableRow(this);
             tableRow.setPadding(0,0,0,53);
-            for (colIndex = 0; colIndex < 5 ;colIndex++){
-                final UserButton button = new UserButton(this,persons.get(rowIndex*5+colIndex));
+            for (int i=0;i<5;i++){
+                final UserButton button = new UserButton(this,persons.get(i));
                 button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
-                button.setWidth(209);
-                button.setHeight(209);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -83,116 +158,71 @@ public class UserManageActivity extends AppCompatActivity {
                 tableRow.addView(textView);
             }
             tableLayout.addView(tableRow);
-        }
-        TableRow tableRow = new TableRow(this);
-        tableRow.setPadding(0,0,0,53);
-        for (int index = rowIndex*5;index<persons.size();index++){
-            final UserButton button = new UserButton(this,persons.get(index));
-            button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
-            button.setWidth(209);
-            button.setHeight(209);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    userDeleteDialog(button.person);
-                }
-            });
-            tableRow.addView(button);
-            TextView textView = new TextView(this);
-            textView.setWidth(22);
-            tableRow.addView(textView);
-        }
-        tableLayout.addView(tableRow);
-        tableRow = new TableRow(this);
-        Button button = new Button(this);
-        button.setPadding(0,8,7,15);
-        button.setBackgroundResource(R.drawable.user_manage_act_user_add_btn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userAddDialog();
+            TableRow tableRow2 = new TableRow(this);
+            for (int i=5;i<persons.size();i++){
+                final UserButton button = new UserButton(this,persons.get(i));
+                button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        userDeleteDialog(button.person);
+                    }
+                });
+                tableRow2.addView(button);
+                TextView textView = new TextView(this);
+                textView.setWidth(22);
+                tableRow2.addView(textView);
             }
-        });
-        tableRow.addView(button);
-        tableLayout.addView(tableRow);
-
+            tableLayout.addView(tableRow2);
+        }
     }
 
 
     protected void userAddDialog(){
-        addNameTextView = new EditText(this);
-        final AlertDialog dialog ;
-        InputFilter[] filters = {new InputFilter.LengthFilter(5)};
-        addNameTextView.setFilters(filters);
-        addNameTextView.setSingleLine(true);
-        addNameTextView.setOnKeyListener(new View.OnKeyListener() {
+
+        final AlertDialog dialog = new AlertDialog.Builder(UserManageActivity.this).create();
+        LayoutInflater inflater = LayoutInflater.from(UserManageActivity.this);
+        View view = inflater.inflate(R.layout.compent_for_alert_dialog_user_add, null);
+        dialog.setView(view);
+
+        view.findViewById(R.id.alertDialogUserAddConcelBtn).setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
-                    InputMethodManager inputMethodManager = (InputMethodManager) UserManageActivity.this.getSystemService(UserManageActivity.this.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(addNameTextView.getWindowToken(), 0);
-                    if (!addNameTextView.getText().toString().equals("") && !addNameTextView.getText().toString().substring(0, addNameTextView.getText().length() - 1).replace(" ","").equals("")) {
-                        dbm.addPerson(addNameTextView.getText().toString().substring(0, addNameTextView.getText().length() - 1));
-                        fresh();
-                    }
-                    new Thread(addDialogCloseRunnable).start();
-                }
-                return false;
-            }
-        });
-        AlertDialog.Builder builder = new AlertDialog.Builder(UserManageActivity.this);
-        builder.setTitle("添加用户");
-        builder.setView(addNameTextView);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!addNameTextView.getText().toString().equals("") && !addNameTextView.getText().toString().replace(" ","").equals("")) {
-                    dbm.addPerson(addNameTextView.getText().toString());
-                    fresh();
-                }
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-        addDialog = builder.create();
-        addDialog.setCancelable(false);
-        addDialog.show();
+        final EditText addUserEditText = (EditText)view.findViewById(R.id.alertDialogUserAddEditText);
+        view.findViewById(R.id.alertDialogUserAddConfirmBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!addUserEditText.getText().toString().equals("") && !addUserEditText.getText().toString().replace(" ","").equals("")) {
+                    dbm.addPerson(addUserEditText.getText().toString());
+                    fresh();
+                    dialog.dismiss();
+                }
+            }
+        });
+        dialog.setCancelable(false);
+        dialog.show();
+        dialog.getWindow().setLayout(758, 374);
+
     }
 
     protected  void userDeleteDialog(final Person person){
-        AlertDialog.Builder builder = new AlertDialog.Builder(UserManageActivity.this);
-        builder.setMessage("确定要删除 "+person.getName());
 
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        final MyAlertDialog deleteDialog = new MyAlertDialog(UserManageActivity.this);
+        deleteDialog.setDeleteDialog(person.getName(), new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 dbm.deletePerson(person);
-                dialog.dismiss();
+                deleteDialog.dismiss();
                 fresh();
             }
         });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-            }
-        });
-        builder.create().show();
     }
 
 
-    //关闭dialog另开进程
-    Runnable addDialogCloseRunnable = new Runnable() {
-        @Override
-        public void run() {
-            addDialog.dismiss();
-        }
-    };
+
 
 
 }

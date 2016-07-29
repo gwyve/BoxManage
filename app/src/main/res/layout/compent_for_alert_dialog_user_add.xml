@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="758dp" android:layout_height="374dp"
+    android:background="@drawable/alert_dialog_board">
+
+    <EditText
+        android:layout_width="568dp"
+        android:layout_height="wrap_content"
+        android:textSize="32dp"
+        android:maxLength="5"
+        android:singleLine="true"
+        android:id="@+id/alertDialogUserAddEditText"
+        android:textColor="@color/blackColor"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="60dp"/>
+
+    <Button
+        android:layout_width="194dp"
+        android:layout_height="81dp"
+        android:text="  "
+        android:id="@+id/alertDialogUserAddConcelBtn"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="235dp"
+        android:background="@drawable/alert_dialog_cancel_btn"/>
+
+    <Button
+        android:layout_width="194dp"
+        android:layout_height="81dp"
+        android:text="  "
+        android:id="@+id/alertDialogUserAddConfirmBtn"
+        android:layout_alignBottom="@+id/alertDialogUserAddConcelBtn"
+        android:layout_toRightOf="@+id/alertDialogUserAddConcelBtn"
+        android:layout_toEndOf="@+id/alertDialogUserAddConcelBtn"
+        android:layout_marginLeft="180dp"
+        android:layout_marginStart="180dp"
+        android:background="@drawable/alert_dialog_add_btn"/>
+
+
+</RelativeLayout>

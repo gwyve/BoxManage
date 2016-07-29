@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="758dp" android:layout_height="374dp"
+    android:background="@drawable/alert_dialog_board">
+
+    <TextView
+        android:layout_width="568dp"
+        android:layout_height="wrap_content"
+        android:textSize="32dp"
+        android:id="@+id/alertDialogText"
+        android:textColor="@color/blackColor"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="60dp"/>
+
+    <Button
+        android:layout_width="194dp"
+        android:layout_height="81dp"
+        android:text="  "
+        android:id="@+id/alertDialogConcelBtn"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="235dp"
+        android:background="@drawable/alert_dialog_cancel_btn"/>
+
+    <Button
+        android:layout_width="194dp"
+        android:layout_height="81dp"
+        android:text="  "
+        android:id="@+id/alertDialogConfirmBtn"
+        android:layout_alignBottom="@+id/alertDialogConcelBtn"
+        android:layout_toRightOf="@+id/alertDialogConcelBtn"
+        android:layout_toEndOf="@+id/alertDialogConcelBtn"
+        android:layout_marginLeft="180dp"
+        android:layout_marginStart="180dp"
+        android:background="@drawable/alert_dialog_confirm_btn_2"/>
+
+
+</RelativeLayout>

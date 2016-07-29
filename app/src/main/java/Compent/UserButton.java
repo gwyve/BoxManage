@@ -20,6 +20,8 @@ public class UserButton extends Button{
         this.person = person;
         this.setText(person.getName());
         this.setTextSize(30);
+        this.setWidth(209);
+        this.setHeight(209);
     }
 
 

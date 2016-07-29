@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -71,8 +73,8 @@ public class RecordActivity extends AppCompatActivity {
         exportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExcelUtil.itemExport(Environment.getDataDirectory().toString(), "存取记录.xls", dbm.getItem());
-                exportCompleteDialog(Environment.getDataDirectory().toString()+"/"+"存取记录.xls");
+                String fileName = ExcelUtil.itemExport(Environment.getExternalStorageDirectory().toString(), "存取记录_"+ Util.getDataFormat().format(new Date(System.currentTimeMillis()))+".xls", dbm.getItem());
+                exportCompleteDialog(fileName);
             }
         });
 
@@ -155,18 +157,32 @@ public class RecordActivity extends AppCompatActivity {
         inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    protected  void exportCompleteDialog(String path){
-        AlertDialog.Builder builder = new AlertDialog.Builder(RecordActivity.this);
-        builder.setMessage("文件成功导出，路径为 \""+ path+"\" ");
 
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+    protected  void exportCompleteDialog(String path){
+
+        final AlertDialog dialog = new AlertDialog.Builder(RecordActivity.this).create();
+        LayoutInflater inflater = LayoutInflater.from(RecordActivity.this);
+        View view = inflater.inflate(R.layout.compent_for_dialog_export, null);
+        dialog.setView(view);
+
+        Button cancelBtn = (Button)view.findViewById(R.id.alertDialogConcelBtn);
+        Button confirmBtn = (Button)view.findViewById(R.id.alertDialogConfirmBtn);
+        TextView textView = (TextView)view.findViewById(R.id.alertDialogText);
+
+        textView.setText("文件成功导出，路径为 \n \""+ path + "\" ");
+        cancelBtn.setVisibility(View.INVISIBLE);
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 dialog.dismiss();
+                RecordActivity.this.finish();
             }
         });
-        AlertDialog dialog = builder.create();
+
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getWindow().setLayout(758, 374);
+
     }
 }

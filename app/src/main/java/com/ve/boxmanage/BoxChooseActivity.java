@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +30,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import Compent.MyAlertDialog;
 import Util.Util;
 import bean.Box;
 import bean.Goods;
@@ -241,13 +246,12 @@ public class BoxChooseActivity extends AppCompatActivity {
     }
 
     protected void boxChooseDialog(final int box){
-        AlertDialog.Builder builder = new AlertDialog.Builder(BoxChooseActivity.this);
-        builder.setMessage("请将物品放入"+box+"号柜，然后确认。");
-
-        builder.setPositiveButton("确认放入", new DialogInterface.OnClickListener() {
+        final int[] seconds = {5};
+        final MyAlertDialog dialog = new MyAlertDialog(BoxChooseActivity.this);
+        final Button confirmBtn = dialog.setPutinDialog("请将物品放入" + box + "号柜，然后确认。");
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+            public void onClick(View v) {
                 item.setBox(box + "");
                 item.setPerson_id(sharedPreferences.getLong("Person_id", -1) + "");
                 item.setPersonName(sharedPreferences.getString("PersonName", null));
@@ -259,17 +263,77 @@ public class BoxChooseActivity extends AppCompatActivity {
                     ActivityManagerApplication.destroyActivity("putinAct");
                     BoxChooseActivity.this.finish();
                 }
-
-
             }
         });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+        confirmBtn.setText("                (" + seconds[0] + "s)");
+        confirmBtn.setTextSize(24);
+        confirmBtn.setTextColor(getResources().getColor(R.color.greenColor));
+        confirmBtn.setClickable(false);
+        confirmBtn.setBackgroundResource(R.drawable.alert_dialog_confirm_wait_btn);
+        final Handler handler = new Handler(){
+            public void handleMessage(Message msg){
+                if (msg.what == 1){
+                    confirmBtn.setText("  ");
+                    confirmBtn.setBackgroundResource(R.drawable.alert_dialog_confirm_btn);
+                    confirmBtn.setClickable(true);
+                }else {
+                    confirmBtn.setText("                ("+seconds[0]+"s)");
+                }
+
             }
-        });
-        builder.create().show();
+        };
+        final Timer timer = new Timer(true);
+        final TimerTask timerTask = new TimerTask() {
+            public void run(){
+                Message msg = new Message();
+                if (seconds[0] == 1){
+                    msg.what = seconds[0];
+                    handler.sendMessage(msg);
+                    timer.cancel();
+                }else {
+                    msg.what = seconds[0];
+                    seconds[0]--;
+                    handler.sendMessage(msg);
+                }
+            }
+        };
+        timer.schedule(timerTask,1000,1000);
+
+
+
+
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(BoxChooseActivity.this);
+//        builder.setMessage("请将物品放入" + box + "号柜，然后确认。");
+//
+//        builder.setPositiveButton("确认放入", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                item.setBox(box + "");
+//                item.setPerson_id(sharedPreferences.getLong("Person_id", -1) + "");
+//                item.setPersonName(sharedPreferences.getString("PersonName", null));
+//                item.setNumber(item.getNumber());
+//                item.setTime(Util.getDataFormat().format(new Date(System.currentTimeMillis())));
+//
+//                if(dbm.putin(item) ){
+//                    dialog.dismiss();
+//                    ActivityManagerApplication.destroyActivity("putinAct");
+//                    BoxChooseActivity.this.finish();
+//                }
+//
+//
+//            }
+//        });
+//        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//        AlertDialog dialog = builder.create();
+//        dialog.setCancelable(false);
+//        dialog.show();
     }
 
 

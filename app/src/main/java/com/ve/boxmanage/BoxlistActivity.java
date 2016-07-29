@@ -6,16 +6,18 @@ import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import Util.Util;
 
 import Compent.ViewForBoxlistAct;
 import Util.ExcelUtil;
@@ -78,11 +80,12 @@ public class BoxlistActivity extends AppCompatActivity {
             public void onClick(View v) {
                 List<Box> list = dbm.queryBox();
                 Collections.sort(list);
-                ExcelUtil.boxExport(Environment.getDataDirectory().toString(), "箱柜列表.xls", list);
-                exportCompleteDialog(Environment.getDataDirectory().toString()+"/"+"箱柜列表.xls");
+                String fileName = ExcelUtil.boxExport(Environment.getExternalStorageDirectory().toString(), "箱柜列表_"+ Util.getDataFormat().format(new Date(System.currentTimeMillis()))+".xls", list);
+                exportCompleteDialog(fileName);
             }
         });
 
+        ActivityManagerApplication.addDestoryActivity(BoxlistActivity.this, "BoxlistAct");
     }
 
     private List<ButtonData> getData(List<Box> boxList){
@@ -120,18 +123,31 @@ public class BoxlistActivity extends AppCompatActivity {
 
 
     protected  void exportCompleteDialog(String path){
-        AlertDialog.Builder builder = new AlertDialog.Builder(BoxlistActivity.this);
-        builder.setMessage("文件成功导出，路径为 \""+ path+"\" ");
 
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        final AlertDialog dialog = new AlertDialog.Builder(BoxlistActivity.this).create();
+        LayoutInflater inflater = LayoutInflater.from(BoxlistActivity.this);
+        View view = inflater.inflate(R.layout.compent_for_dialog_export, null);
+        dialog.setView(view);
+
+        Button cancelBtn = (Button)view.findViewById(R.id.alertDialogConcelBtn);
+        Button confirmBtn = (Button)view.findViewById(R.id.alertDialogConfirmBtn);
+        TextView textView = (TextView)view.findViewById(R.id.alertDialogText);
+
+        textView.setText("文件成功导出，路径为\n \""+ path + "\" ");
+        cancelBtn.setVisibility(View.INVISIBLE);
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 dialog.dismiss();
+                BoxlistActivity.this.finish();
             }
         });
-        AlertDialog dialog = builder.create();
+
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getWindow().setLayout(758, 374);
+
+
     }
 
 

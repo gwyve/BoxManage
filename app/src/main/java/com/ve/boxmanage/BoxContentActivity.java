@@ -1,12 +1,14 @@
 package com.ve.boxmanage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -27,6 +29,7 @@ public class BoxContentActivity extends AppCompatActivity {
     DBManager dbm;
     int boxid;
     List<Box>boxes;
+    List<Box> dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,6 @@ public class BoxContentActivity extends AppCompatActivity {
         dbm = new DBManager(this);
         boxid = getIntent().getIntExtra("boxid", -1);
         boxes = dbm.queryBoxByBox("" + boxid);
-        Log.e("111", boxes.toString());
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,20 +55,27 @@ public class BoxContentActivity extends AppCompatActivity {
         }else {
             textView.setText("  "+boxid);
         }
-
-
-        listView.setAdapter(new MyAdapter(this,getData(boxes)));
+        dataList = getData(boxes);
+        listView.setAdapter(new MyAdapter(this,dataList));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(BoxContentActivity.this, GoodsShowActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("box", dataList.get(position));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        ActivityManagerApplication.addDestoryActivity(BoxContentActivity.this,"BoxContentAct");
     }
 
-    private List<String> getData(List<Box> boxList){
-        List<String > dataList = new LinkedList<String>();
+    private List<Box> getData(List<Box> boxList){
+        List<Box > dataList = new LinkedList<Box>();
         for (int i = 0; i<boxList.size();i++){
             Box box = boxList.get(i);
             for (int j =0; j< box.getNumber();j++){
-                String title = "【" + box.getVendor() +"】 【" + box.getModel() +"】 【" + box.getType() +"】 ";
-                if ( !box.getMemo().equals("") && box.getMemo()!=null )
-                    title += "【"+box.getMemo()+"】";
-                dataList.add(title);
+                dataList.add(box);
             }
         }
         return dataList;
@@ -75,12 +84,12 @@ public class BoxContentActivity extends AppCompatActivity {
 
 
     private class MyAdapter extends BaseAdapter{
-        private List<String> data;
+        private List<Box> data;
         private LayoutInflater layoutInflater;
         private Context context;
 
 
-        public MyAdapter(Context context,List<String> data){
+        public MyAdapter(Context context,List<Box> data){
             this.context = context;
             this.data = data;
             this.layoutInflater = LayoutInflater.from(context);
@@ -116,7 +125,11 @@ public class BoxContentActivity extends AppCompatActivity {
             }else {
                 component = (Component)convertView.getTag();
             }
-            component.title.setText(data.get(position));
+            Box box = data.get(position);
+            String title = "【" + box.getVendor() +"】 【" + box.getModel() +"】 【" + box.getType() +"】 ";
+            if ( !box.getMemo().equals("") && box.getMemo()!=null )
+                title += "【"+box.getMemo()+"】";
+            component.title.setText(title);
 
             return convertView;
         }
