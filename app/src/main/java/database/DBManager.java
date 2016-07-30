@@ -197,6 +197,19 @@ public class DBManager {
         return box;
     }
 
+    public List<Box> queryBoxGroupByType(){
+        List<Box> list = new ArrayList<Box>();
+        Cursor c = db.rawQuery("SELECT box,goodsid,vendor,model,type,memo,SUM(number) FROM box GROUP BY box,type ORDER BY box ASC", null);
+        while (c.moveToNext()){
+            Box box = new Box(c.getString(c.getColumnIndex("box")), c.getString(c.getColumnIndex("goodsid")),
+                    c.getString(c.getColumnIndex("vendor")), c.getString(c.getColumnIndex("model")),c.getString(c.getColumnIndex("type")),
+                    c.getString(c.getColumnIndex("memo")),c.getInt(c.getColumnIndex("SUM(number)")));
+            list.add(box);
+        }
+        c.close();
+        return list;
+    }
+
     public  List<Box> queryBox(){
         List<Box> list = new ArrayList<Box>();
         Cursor c = db.rawQuery("SELECT * FROM box ORDER BY box ASC", null);

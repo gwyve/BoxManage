@@ -27,6 +27,16 @@ public class Box implements Serializable,Comparable{
         this.number = number;
     }
 
+    public Box(String box, String goodsid, String vendor, String model, String type, String memo, int anInt) {
+        this.box = box;
+        this.goodsId = goodsid;
+        this.vendor = vendor;
+        this.model = model;
+        this.type = type;
+        this.memo = memo;
+        this.number = anInt;
+    }
+
     public long get_id() {
         return _id;
     }
