@@ -48,6 +48,7 @@ public class BoxContentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BoxContentActivity.this.finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
         if (boxid>9){
@@ -65,6 +66,7 @@ public class BoxContentActivity extends AppCompatActivity {
                 bundle.putSerializable("box", dataList.get(position));
                 intent.putExtras(bundle);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
         ActivityManagerApplication.addDestoryActivity(BoxContentActivity.this,"BoxContentAct");

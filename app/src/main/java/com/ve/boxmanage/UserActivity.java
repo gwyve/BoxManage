@@ -70,16 +70,14 @@ public class UserActivity extends AppCompatActivity {
             int colIndex;
             for(rowIndex = 0; rowIndex <persons.size() /5; rowIndex++){
                 TableRow tableRow = new TableRow(this);
-                tableRow.setPadding(0,0,0,53);
+                tableRow.setPadding(0,0,0,23);
                 for (colIndex = 0; colIndex < 5 ;colIndex++){
                     final UserButton button = new UserButton(this,persons.get(rowIndex*5+colIndex));
                     button.setBackgroundResource(R.drawable.user_choose_act_user_btn);
-                    button.setWidth(194);
-                    button.setHeight(194);
                     button.setOnClickListener(new UserButtonListener(button.person));
                     tableRow.addView(button);
                     TextView textView = new TextView(this);
-                    textView.setWidth(52);
+                    textView.setWidth(22);
                     tableRow.addView(textView);
                 }
                 tableLayout.addView(tableRow);
@@ -87,13 +85,11 @@ public class UserActivity extends AppCompatActivity {
             TableRow tableRow = new TableRow(this);
             for (int index = rowIndex*5;index<persons.size();index++){
                 final UserButton button = new UserButton(this,persons.get(index));
-                button.setWidth(194);
-                button.setHeight(194);
                 button.setBackgroundResource(R.drawable.user_choose_act_user_btn);
                 button.setOnClickListener(new UserButtonListener(button.person));
                 tableRow.addView(button);
                 TextView textView = new TextView(this);
-                textView.setWidth(52);
+                textView.setWidth(22);
                 tableRow.addView(textView);
             }
             tableLayout.addView(tableRow);
@@ -106,7 +102,7 @@ public class UserActivity extends AppCompatActivity {
             if (persons.size()<10){
                 if (persons.size()<5){
                     TableRow tableRow = new TableRow(this);
-                    tableRow.setPadding(0,0,0,53);
+                    tableRow.setPadding(0,0,0,23);
                     for (int i=0;i<persons.size();i++){
                         final UserButton button = new UserButton(this,persons.get(i));
                         button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
@@ -135,7 +131,7 @@ public class UserActivity extends AppCompatActivity {
 
                 }else {
                     TableRow tableRow = new TableRow(this);
-                    tableRow.setPadding(0,0,0,53);
+                    tableRow.setPadding(0,0,0,23);
                     for (int i=0;i<5;i++){
                         final UserButton button = new UserButton(this,persons.get(i));
                         button.setBackgroundResource(R.drawable.user_manage_act_user_btn);
@@ -180,7 +176,7 @@ public class UserActivity extends AppCompatActivity {
                 }
             }else if (persons.size() == 10){
                 TableRow tableRow = new TableRow(this);
-                tableRow.setPadding(0,0,0,53);
+                tableRow.setPadding(0,0,0,23);
                 for (int i=0;i<5;i++){
                     final UserButton button = new UserButton(this,persons.get(i));
                     button.setBackgroundResource(R.drawable.user_manage_act_user_btn);

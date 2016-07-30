@@ -68,6 +68,7 @@ public class RecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RecordActivity.this.finish();
+                overridePendingTransition(R.anim.choose_act_return, R.anim.record_act_out);
             }
         });
         exportBtn.setOnClickListener(new View.OnClickListener() {

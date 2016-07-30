@@ -50,6 +50,7 @@ public class BoxlistActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BoxlistActivity.this.finish();
+                overridePendingTransition(R.anim.choose_act_return, R.anim.boxlist_act_out);
             }
         });
 
@@ -68,6 +69,7 @@ public class BoxlistActivity extends AppCompatActivity {
                     Intent intent = new Intent(BoxlistActivity.this,BoxContentActivity.class);
                     intent.putExtra("boxid",data.boxid);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 }
             });
             tableRow.addView(view);

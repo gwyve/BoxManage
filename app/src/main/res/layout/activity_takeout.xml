@@ -32,7 +32,8 @@
 
             <EditText
                 android:layout_width="870dp"
-                android:layout_height="wrap_content"
+                android:layout_height="386dp"
+                android:gravity="top"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="302dp"

@@ -71,6 +71,7 @@ public class BoxChooseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BoxChooseActivity.this.finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
             }
         });
 

@@ -53,6 +53,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SearchActivity.this.finish();
+                overridePendingTransition(R.anim.choose_act_return,R.anim.takeout_act_out);
             }
         });
 
@@ -200,6 +201,7 @@ public class SearchActivity extends AppCompatActivity {
                     bundle.putSerializable("box", dataList.get(position));
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             });
         }else {

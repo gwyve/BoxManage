@@ -34,10 +34,12 @@ public class PutinActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_putin);
+
 
         backBtn = (Button) findViewById(R.id.putinActBackBtn);
         vendorText = (EditText) findViewById(R.id.putinActVendorEditText);
@@ -57,6 +59,7 @@ public class PutinActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PutinActivity.this.finish();
+                overridePendingTransition(R.anim.choose_act_return, R.anim.putin_act_out);
             }
         });
         backBtn.setFocusable(true);
@@ -192,6 +195,8 @@ public class PutinActivity extends AppCompatActivity {
                 bundle.putSerializable("item", item);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+
             }
         });
         nextBtn.setClickable(false);

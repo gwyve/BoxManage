@@ -50,6 +50,7 @@ public class GoodsShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GoodsShowActivity.this.finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
         nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,9 +58,10 @@ public class GoodsShowActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GoodsShowActivity.this,TakeoutActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("box",box);
+                bundle.putSerializable("box", box);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 

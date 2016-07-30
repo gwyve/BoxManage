@@ -42,6 +42,7 @@ public class ChooseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChooseActivity.this,SearchActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.takeout_act_in,R.anim.choose_act_out);
             }
         });
 
@@ -50,6 +51,7 @@ public class ChooseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChooseActivity.this, PutinActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.putin_act_in, R.anim.choose_act_out);
             }
         });
 
@@ -58,6 +60,7 @@ public class ChooseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChooseActivity.this,BoxlistActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.boxlist_act_in,R.anim.choose_act_out);
             }
         });
 
@@ -66,6 +69,7 @@ public class ChooseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChooseActivity.this,RecordActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.record_act_in,R.anim.choose_act_out);
             }
         });
 
