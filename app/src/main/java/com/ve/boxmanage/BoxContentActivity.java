@@ -23,6 +23,7 @@ import database.DBManager;
 
 public class BoxContentActivity extends AppCompatActivity {
 
+    TextView titleText;
     Button backBtn;
     TextView textView;
     ListView listView;
@@ -36,9 +37,12 @@ public class BoxContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box_content);
 
+        titleText = (TextView)findViewById(R.id.boxContentActLeftTopTitleTextView);
         backBtn = (Button)findViewById(R.id.boxContentActBackBtn);
         textView = (TextView)findViewById(R.id.boxContentActTextView);
         listView = (ListView)findViewById(R.id.boxContentActListView);
+
+        titleText.setText(getIntent().getStringExtra("title") +"  >  物品清单");
 
         dbm = new DBManager(this);
         boxid = getIntent().getIntExtra("boxid", -1);
@@ -65,6 +69,7 @@ public class BoxContentActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("box", dataList.get(position));
                 intent.putExtras(bundle);
+                intent.putExtra("title",titleText.getText().toString());
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }

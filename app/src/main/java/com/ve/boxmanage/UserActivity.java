@@ -74,6 +74,7 @@ public class UserActivity extends AppCompatActivity {
                 for (colIndex = 0; colIndex < 5 ;colIndex++){
                     final UserButton button = new UserButton(this,persons.get(rowIndex*5+colIndex));
                     button.setBackgroundResource(R.drawable.user_choose_act_user_btn);
+                    button.setPadding(0,0,15,0);
                     button.setOnClickListener(new UserButtonListener(button.person));
                     tableRow.addView(button);
                     TextView textView = new TextView(this);
@@ -87,6 +88,7 @@ public class UserActivity extends AppCompatActivity {
                 final UserButton button = new UserButton(this,persons.get(index));
                 button.setBackgroundResource(R.drawable.user_choose_act_user_btn);
                 button.setOnClickListener(new UserButtonListener(button.person));
+                button.setPadding(0, 0, 15, 0);
                 tableRow.addView(button);
                 TextView textView = new TextView(this);
                 textView.setWidth(22);
@@ -112,13 +114,13 @@ public class UserActivity extends AppCompatActivity {
                                 userDeleteDialog(button.person);
                             }
                         });
+                        button.setPadding(0, 0, 15, 0);
                         tableRow.addView(button);
                         TextView textView = new TextView(this);
                         textView.setWidth(22);
                         tableRow.addView(textView);
                     }
                     Button button = new Button(this);
-                    button.setPadding(0,8,7,15);
                     button.setBackgroundResource(R.drawable.user_manage_act_user_add_btn);
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -126,6 +128,7 @@ public class UserActivity extends AppCompatActivity {
                             userAddDialog();
                         }
                     });
+                    button.setPadding(0, 0, 15, 0);
                     tableRow.addView(button);
                     tableLayout.addView(tableRow);
 
@@ -141,6 +144,7 @@ public class UserActivity extends AppCompatActivity {
                                 userDeleteDialog(button.person);
                             }
                         });
+                        button.setPadding(0, 0, 15, 0);
                         tableRow.addView(button);
                         TextView textView = new TextView(this);
                         textView.setWidth(22);
@@ -157,13 +161,13 @@ public class UserActivity extends AppCompatActivity {
                                 userDeleteDialog(button.person);
                             }
                         });
+                        button.setPadding(0, 0, 15, 0);
                         tableRow2.addView(button);
                         TextView textView = new TextView(this);
                         textView.setWidth(22);
                         tableRow2.addView(textView);
                     }
                     Button button = new Button(this);
-                    button.setPadding(0,8,7,15);
                     button.setBackgroundResource(R.drawable.user_manage_act_user_add_btn);
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -186,6 +190,7 @@ public class UserActivity extends AppCompatActivity {
                             userDeleteDialog(button.person);
                         }
                     });
+                    button.setPadding(0, 0, 15, 0);
                     tableRow.addView(button);
                     TextView textView = new TextView(this);
                     textView.setWidth(22);
@@ -202,6 +207,7 @@ public class UserActivity extends AppCompatActivity {
                             userDeleteDialog(button.person);
                         }
                     });
+                    button.setPadding(0,0,15,0);
                     tableRow2.addView(button);
                     TextView textView = new TextView(this);
                     textView.setWidth(22);

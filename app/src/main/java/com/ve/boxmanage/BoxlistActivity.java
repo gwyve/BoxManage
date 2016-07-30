@@ -3,6 +3,7 @@ package com.ve.boxmanage;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import database.DBManager;
 
 public class BoxlistActivity extends AppCompatActivity {
 
+    TextView titleText;
     Button backBtn;
     Button exportBtn;
     TableLayout tableLayout;
@@ -40,11 +42,16 @@ public class BoxlistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boxlist);
 
+        titleText = (TextView)findViewById(R.id.boxlistActLeftTopTitleTextView);
         backBtn = (Button)findViewById(R.id.boxListActBackBtn);
         exportBtn = (Button) findViewById(R.id.boxListActExportBtn);
         tableLayout = (TableLayout)findViewById(R.id.boxListActTableLayout);
         dbm = new DBManager(this);
         boxList = dbm.queryBoxGroupByType();
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("BOXMANAGE", MODE_PRIVATE);
+
+        titleText.setText(sharedPreferences.getString("PersonName", null)+"箱柜总览");
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +75,7 @@ public class BoxlistActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(BoxlistActivity.this,BoxContentActivity.class);
                     intent.putExtra("boxid",data.boxid);
+                    intent.putExtra("title",titleText.getText().toString());
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 }

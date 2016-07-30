@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import bean.Person;
 
 public class PutinActivity extends AppCompatActivity {
 
+    TextView titleText;
     Button backBtn;
     EditText vendorText;
     EditText modelText;
@@ -40,7 +43,7 @@ public class PutinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_putin);
 
-
+        titleText = (TextView)findViewById(R.id.putinActLeftTopTitleTextView);
         backBtn = (Button) findViewById(R.id.putinActBackBtn);
         vendorText = (EditText) findViewById(R.id.putinActVendorEditText);
         modelText = (EditText) findViewById(R.id.putinActModelEditText);
@@ -55,6 +58,7 @@ public class PutinActivity extends AppCompatActivity {
 
         person = new Person(Long.valueOf(sharedPreferences.getLong("Person_id", -1)), sharedPreferences.getString("PersonName", null));
 
+        titleText.setText(person.getName()+"放物  >  添加物品信息 ");
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +98,7 @@ public class PutinActivity extends AppCompatActivity {
         modelText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus && modelText.getText().toString().equals("必填")){
+                if (hasFocus && modelText.getText().toString().equals("必填")) {
                     modelText.setText("");
                     modelText.setTextColor(getResources().getColor(R.color.blackColor));
                 }
@@ -120,7 +124,7 @@ public class PutinActivity extends AppCompatActivity {
         typeText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus && typeText.getText().toString().equals("必填")){
+                if (hasFocus && typeText.getText().toString().equals("必填")) {
                     typeText.setText("");
                     typeText.setTextColor(getResources().getColor(R.color.blackColor));
                 }
@@ -147,13 +151,40 @@ public class PutinActivity extends AppCompatActivity {
         memoText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus && memoText.getText().toString().equals("备注")){
+                if (hasFocus && memoText.getText().toString().equals("备注")) {
                     memoText.setText("");
                     memoText.setTextColor(getResources().getColor(R.color.blackColor));
                 }
             }
         });
+        memoText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    memoText.setText(memoText.getText().toString().substring(0, memoText.getText().toString().length() - 1));
+                    closeKeyBoard(PutinActivity.this, memoText);
+                    return true;
+                }
+                return false;
+            }
+        });
 
+        numberText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                isOK();
+            }
+        });
 
         subBtn.setClickable(false);
         subBtn.setOnClickListener(new View.OnClickListener() {
@@ -221,7 +252,8 @@ public class PutinActivity extends AppCompatActivity {
     private boolean isOK(){
         if (!vendorText.getText().toString().equals("") && !vendorText.getText().toString().equals("必填")
                 && !modelText.getText().toString().equals("") && !modelText.getText().toString().equals("必填")
-                && !typeText.getText().toString().equals("") && !typeText.getText().toString().equals("必填")){
+                && !typeText.getText().toString().equals("") && !typeText.getText().toString().equals("必填")
+                && !numberText.getText().toString().equals("") && Integer.parseInt(numberText.getText().toString())>0){
             nextBtn.setBackgroundResource(R.drawable.putin_act_next_btn_2);
             nextBtn.setClickable(true);
             return true;

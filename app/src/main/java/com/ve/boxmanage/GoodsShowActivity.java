@@ -1,6 +1,7 @@
 package com.ve.boxmanage;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import bean.Goods;
 
 public class GoodsShowActivity extends AppCompatActivity {
 
+    TextView titleText;
     Button backBtn;
     Button nextBtn;
     TextView boxidTextView;
@@ -25,6 +27,7 @@ public class GoodsShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_show);
 
+        titleText = (TextView)findViewById(R.id.goodsShowActLeftTopTitleTextView);
         backBtn = (Button) findViewById(R.id.goodsShowActBackBtn);
         nextBtn = (Button)findViewById(R.id.goodsShowActNextBtn);
         boxidTextView = (TextView)findViewById(R.id.goodsShowActBoxidTextView);
@@ -35,6 +38,10 @@ public class GoodsShowActivity extends AppCompatActivity {
 
 
         box = (Box)getIntent().getSerializableExtra("box");
+
+        titleText.setText(getIntent().getStringExtra("title")+"  >  物品详情");
+
+
 
         if (Integer.parseInt(box.getBox())>9){
             boxidTextView.setText(box.getBox());
@@ -60,6 +67,7 @@ public class GoodsShowActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("box", box);
                 intent.putExtras(bundle);
+                intent.putExtra("title",titleText.getText().toString());
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }

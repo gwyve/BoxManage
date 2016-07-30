@@ -26,6 +26,7 @@ import database.DBManager;
 
 public class TakeoutActivity extends AppCompatActivity {
 
+    TextView titleText;
     Button backBtn;
     Button confirmBtn;
     EditText editText;
@@ -40,6 +41,7 @@ public class TakeoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_takeout);
 
+        titleText = (TextView)findViewById(R.id.takeoutActLeftTopTitleTextView);
         backBtn = (Button) findViewById(R.id.takeoutActBackBtn);
         confirmBtn = (Button)findViewById(R.id.takeoutActConfirmBtn);
         editText = (EditText)findViewById(R.id.takeoutActExplainEditText);
@@ -49,6 +51,7 @@ public class TakeoutActivity extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("BOXMANAGE", MODE_PRIVATE);
         person = new Person(Long.valueOf(sharedPreferences.getLong("Person_id", -1)), sharedPreferences.getString("PersonName", null));
 
+        titleText.setText(getIntent().getStringExtra("title")+"  >  记录去向");
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

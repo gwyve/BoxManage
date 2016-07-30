@@ -2,6 +2,7 @@ package com.ve.boxmanage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,6 +29,7 @@ import database.DBManager;
 
 public class SearchActivity extends AppCompatActivity {
 
+    TextView titleText;
     Button backBtn;
     EditText editText;
     Button searchBtn;
@@ -36,18 +38,27 @@ public class SearchActivity extends AppCompatActivity {
     DBManager dbm;
     List<Box> dataList;
 
+    SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        titleText = (TextView)findViewById(R.id.searchActLeftTopTitleTextView);
         backBtn = (Button) findViewById(R.id.searchActBackBtn);
         editText = (EditText) findViewById(R.id.searchActEditText);
         searchBtn = (Button) findViewById(R.id.searchActSearchBtn);
         listView = (ListView) findViewById(R.id.searchActListView);
 
+        sharedPreferences = this.getSharedPreferences("BOXMANAGE", MODE_PRIVATE);
+
         dbm = new DBManager(this);
+
+        titleText.setText(sharedPreferences.getString("PersonName", null)+"取物  >  搜索物品");
+
+
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +210,7 @@ public class SearchActivity extends AppCompatActivity {
                     Intent intent = new Intent(SearchActivity.this, GoodsShowActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("box", dataList.get(position));
+                    intent.putExtra("title",titleText.getText().toString());
                     intent.putExtras(bundle);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

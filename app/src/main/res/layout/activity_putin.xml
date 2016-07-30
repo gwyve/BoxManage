@@ -9,6 +9,18 @@
     android:paddingTop="0dp"
     tools:context="com.ve.boxmanage.PutinActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="24dp"
+        android:textColor="#000000"
+        android:id="@+id/putinActLeftTopTitleTextView"/>
+
+
 
     <LinearLayout
         android:orientation="horizontal"
@@ -28,6 +40,7 @@
             android:id="@+id/putinActBackBtn" />
 
 
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
@@ -39,7 +52,8 @@
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="27dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -55,6 +69,7 @@
                         android:layout_height="wrap_content"
                         android:width="527dp"
                         android:height="99dp"
+                        android:paddingLeft="24dp"
                         android:singleLine="true"
                         android:text="必填"
                         android:textSize="36dp"
@@ -62,12 +77,15 @@
                         android:textColor="@color/grayColor"
                         android:layout_marginLeft="60dp"
                         android:id="@+id/putinActVendorEditText"
-                        android:layout_column="1" />
+                        android:layout_column="1"
+                        android:background="@drawable/putin_act_small_edittext"
+                        android:textCursorDrawable="@null"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="27dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -83,6 +101,7 @@
                         android:layout_height="wrap_content"
                         android:width="527dp"
                         android:height="99dp"
+                        android:paddingLeft="24dp"
                         android:singleLine="true"
                         android:text="必填"
                         android:textSize="36dp"
@@ -90,12 +109,15 @@
                         android:textColor="@color/grayColor"
                         android:layout_marginLeft="60dp"
                         android:id="@+id/putinActModelEditText"
-                        android:layout_column="1" />
+                        android:layout_column="1"
+                        android:background="@drawable/putin_act_small_edittext"
+                        android:textCursorDrawable="@null"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="27dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -104,13 +126,15 @@
                         android:textSize="36dp"
                         android:textColor="@color/blackColor"
                         android:id="@+id/putinActTypeTextView"
-                        android:layout_column="0" />
+                        android:layout_column="0"
+                        />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:width="527dp"
                         android:height="99dp"
+                        android:paddingLeft="24dp"
                         android:singleLine="true"
                         android:text="必填"
                         android:textSize="36dp"
@@ -118,7 +142,9 @@
                         android:textColor="@color/grayColor"
                         android:layout_marginLeft="60dp"
                         android:id="@+id/putinActTypeEditText"
-                        android:layout_column="1" />
+                        android:layout_column="1"
+                        android:background="@drawable/putin_act_small_edittext"
+                        android:textCursorDrawable="@null"/>
                 </TableRow>
 
                 <TableRow
@@ -128,8 +154,11 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="top"
                         android:width="527dp"
                         android:height="282dp"
+                        android:paddingLeft="24dp"
+                        android:paddingTop="24dp"
                         android:singleLine="false"
                         android:text="备注"
                         android:maxLength="70"
@@ -137,7 +166,8 @@
                         android:textColor="@color/grayColor"
                         android:layout_marginLeft="60dp"
                         android:id="@+id/putinActMemoEditText"
-                        android:layout_column="1" />
+                        android:layout_column="1"
+                        android:background="@drawable/putin_act_big_edittext"/>
                 </TableRow>
             </TableLayout>
 
@@ -146,8 +176,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:layout_marginTop="50dp"
-                android:layout_gravity="center">
+                android:layout_marginLeft="160dp"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="top">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,23 +191,28 @@
                 <Button
                     android:layout_width="51dp"
                     android:layout_height="51dp"
-                    android:layout_marginLeft="13dp"
+                    android:layout_marginLeft="63dp"
                     android:height="51dp"
                     android:id="@+id/putinActSubBtn"
                     android:background="@drawable/putin_act_sub_btn" />
 
-                <TextView
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
                     android:text="1"
+                    android:inputType="number"
                     android:textSize="28dp"
                     android:width="50dp"
                     android:gravity="center"
                     android:textColor="@color/blackColor"
-                    android:id="@+id/putinActNumberTextView" />
+                    android:id="@+id/putinActNumberTextView"
+                    android:background="@drawable/putin_act_num_edittext"
+                    />
                 <Button
                     android:layout_width="51dp"
                     android:layout_height="51dp"
+                    android:layout_marginLeft="13dp"
                     android:id="@+id/putinActPlusBtn"
                     android:background="@drawable/putin_act_plus_btn" />
 

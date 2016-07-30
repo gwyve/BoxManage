@@ -42,6 +42,7 @@ import database.DBManager;
 
 public class BoxChooseActivity extends AppCompatActivity {
 
+    TextView titleTextView;
     Button backBtn;
     ListView listView;
     Item item;
@@ -65,6 +66,9 @@ public class BoxChooseActivity extends AppCompatActivity {
         boxes = dbm.queryBox();
 
         sharedPreferences = this.getSharedPreferences("BOXMANAGE", MODE_PRIVATE);
+
+        titleTextView = (TextView)findViewById(R.id.boxlistActLeftTopTitleTextView);
+        titleTextView.setText(sharedPreferences.getString("PersonName", null)+"放物  >  添加物品信息  >  选择箱柜 ");
 
         backBtn = (Button) findViewById(R.id.boxChooseActBackBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {

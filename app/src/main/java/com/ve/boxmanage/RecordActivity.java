@@ -135,6 +135,8 @@ public class RecordActivity extends AppCompatActivity {
 
     private void fresh(){
 
+        if (currentPage > totalPage)
+            currentPage = totalPage;
         dataList = dbm.getItem(getResources().getInteger(R.integer.page_size),currentPage);
         editText.setText(currentPage + "/" + totalPage);
         tableLayout.removeAllViews();

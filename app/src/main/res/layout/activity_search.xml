@@ -9,6 +9,17 @@
     android:paddingTop="0dp"
     tools:context="com.ve.boxmanage.SearchActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="24dp"
+        android:textColor="#000000"
+        android:id="@+id/searchActLeftTopTitleTextView"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -32,29 +43,31 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="217dp">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="1031dp"
+                android:layout_height="100dp"
+                android:gravity="top">
 
                 <EditText
                     android:layout_width="907dp"
                     android:layout_height="99dp"
                     android:id="@+id/searchActEditText"
                     android:textSize="35dp"
+                    android:paddingLeft="36dp"
                     android:singleLine="true"
                     android:text="搜索品牌 型号 类型 备注"
                     android:textColor="@color/grayColor"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="@drawable/search_act_edittext"/>
 
                 <Button
-                    android:layout_width="99dp"
-                    android:layout_height="99dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:text=" "
-                    android:layout_marginLeft="24dp"
+                    android:layout_alignParentRight="true"
                     android:background="@drawable/search_act_search_btn"
                     android:id="@+id/searchActSearchBtn" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <ListView
                 android:layout_width="match_parent"

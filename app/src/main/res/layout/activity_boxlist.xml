@@ -9,6 +9,17 @@
     android:paddingTop="0dp"
     tools:context="com.ve.boxmanage.BoxlistActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="24dp"
+        android:textColor="#000000"
+        android:id="@+id/boxlistActLeftTopTitleTextView"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -30,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="75dp"
+            android:layout_marginLeft="66dp"
             android:id="@+id/boxListActTableLayout">
 
 
@@ -40,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="   "
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="68dp"
             android:background="@drawable/export_btn"
             android:id="@+id/boxListActExportBtn" />
     </LinearLayout>
