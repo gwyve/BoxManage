@@ -4,6 +4,7 @@ package com.ve.boxmanage;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,10 +15,15 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
+import Compent.RecommendButton;
 import bean.Item;
 import bean.Person;
+import database.DBManager;
 
 public class PutinActivity extends AppCompatActivity {
 
@@ -31,11 +37,13 @@ public class PutinActivity extends AppCompatActivity {
     Button plusBtn;
     TextView numberText;
     Button nextBtn;
+    LinearLayout recommendLayout;
 
     Person person;
     Item item;
 
     SharedPreferences sharedPreferences;
+    DBManager dbm;
 
 
     @Override
@@ -53,10 +61,12 @@ public class PutinActivity extends AppCompatActivity {
         plusBtn = (Button) findViewById(R.id.putinActPlusBtn);
         numberText = (TextView) findViewById(R.id.putinActNumberTextView);
         nextBtn = (Button) findViewById(R.id.putinActNextBtn);
+        recommendLayout = (LinearLayout) findViewById(R.id.putin_act_recommad_layout);
 
         sharedPreferences = this.getSharedPreferences("BOXMANAGE", MODE_PRIVATE);
 
         person = new Person(Long.valueOf(sharedPreferences.getLong("Person_id", -1)), sharedPreferences.getString("PersonName", null));
+        dbm = new DBManager(this);
 
         titleText.setText(person.getName()+"放物  >  添加物品信息 ");
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +137,9 @@ public class PutinActivity extends AppCompatActivity {
                 if (hasFocus && typeText.getText().toString().equals("必填")) {
                     typeText.setText("");
                     typeText.setTextColor(getResources().getColor(R.color.blackColor));
+                    addRecommendButton();
+                } else if (!hasFocus) {
+                    deletRecommendButton();
                 }
 
             }
@@ -144,6 +157,7 @@ public class PutinActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                addRecommendButton();
                 isOK();
             }
         });
@@ -169,6 +183,15 @@ public class PutinActivity extends AppCompatActivity {
             }
         });
 
+        numberText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && numberText.getText().toString().equals("")){
+                    numberText.setText("1");
+                }
+            }
+        });
+
         numberText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -190,8 +213,10 @@ public class PutinActivity extends AppCompatActivity {
         subBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (numberText.getText().toString().equals(""))
+                    numberText.setText("1");
                 int number = Integer.parseInt(numberText.getText().toString());
-                if (number == 2 || number == 1) {
+                if (number<2) {
                     subBtn.setClickable(false);
                     numberText.setText(1 + "");
                 } else {
@@ -203,6 +228,8 @@ public class PutinActivity extends AppCompatActivity {
         plusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (numberText.getText().toString().equals(""))
+                    numberText.setText("1");
                 int number = Integer.parseInt(numberText.getText().toString());
                 number++;
                 subBtn.setClickable(true);
@@ -226,13 +253,14 @@ public class PutinActivity extends AppCompatActivity {
                 bundle.putSerializable("item", item);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
             }
         });
         nextBtn.setClickable(false);
         ActivityManagerApplication.addDestoryActivity(PutinActivity.this, "PutinAct");
 
+        deletRecommendButton();
 
     }
 
@@ -268,6 +296,44 @@ public class PutinActivity extends AppCompatActivity {
     private void closeKeyBoard(Context context, View editText){
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
+
+    public  void addRecommendButton(){
+
+        recommendLayout.setBackgroundResource(R.drawable.recommed_layout_background);
+        recommendLayout.removeAllViews();
+        List<String> recommendData = dbm.getRecommendType(typeText.getText().toString());
+        if (recommendData.size() > 8){
+            for (int i = 0; i < 8; i++){
+                final String title = recommendData.get(i);
+                Button button = new RecommendButton(PutinActivity.this, title, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        typeText.setText(title);
+                        deletRecommendButton();
+                        memoText.requestFocus();
+                    }
+                });
+                recommendLayout.addView(button);
+            }
+        }else if (recommendData.size()>0){
+            for (int i = 0; i < recommendData.size(); i++){
+                final String title = recommendData.get(i);
+                Button button = new RecommendButton(PutinActivity.this, title, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        typeText.setText(title);
+                        deletRecommendButton();
+                        memoText.requestFocus();
+                    }
+                });
+                recommendLayout.addView(button);
+            }
+        }
+    }
+    public void deletRecommendButton(){
+        recommendLayout.removeAllViews();
+        recommendLayout.setBackgroundColor(Color.TRANSPARENT);
     }
 
 

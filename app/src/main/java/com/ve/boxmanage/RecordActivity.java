@@ -3,7 +3,10 @@ package com.ve.boxmanage;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Environment;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,21 +19,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import Compent.ItemForRecordAct;
 import Util.ExcelUtil;
 import Util.Util;
 import bean.Item;
 import database.DBManager;
+import Util.DownloadServer;
 
 public class RecordActivity extends AppCompatActivity {
 
@@ -48,6 +47,9 @@ public class RecordActivity extends AppCompatActivity {
     int currentPage;
     int totalPage;
 
+    PowerManager powerManager;
+    PowerManager.WakeLock wakeLock;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,9 @@ public class RecordActivity extends AppCompatActivity {
         currentPage = 1;
         totalPage = (int) Math.ceil((double)dbm.getItemCount()/getResources().getInteger(R.integer.page_size));
 
+        powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK,"My Lock");
+
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +79,7 @@ public class RecordActivity extends AppCompatActivity {
         exportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fileName = ExcelUtil.itemExport(Environment.getExternalStorageDirectory().toString(), "存取记录_"+ Util.getDataFormat().format(new Date(System.currentTimeMillis()))+".xls", dbm.getItem());
+                String fileName = ExcelUtil.itemExport(Environment.getExternalStorageDirectory().toString()+"/Records", "存取记录_"+ Util.getDataFormat().format(new Date(System.currentTimeMillis()))+".xls", dbm.getItem());
                 exportCompleteDialog(fileName);
             }
         });
@@ -169,15 +174,46 @@ public class RecordActivity extends AppCompatActivity {
         View view = inflater.inflate(R.layout.compent_for_dialog_export, null);
         dialog.setView(view);
 
-        Button cancelBtn = (Button)view.findViewById(R.id.alertDialogConcelBtn);
-        Button confirmBtn = (Button)view.findViewById(R.id.alertDialogConfirmBtn);
-        TextView textView = (TextView)view.findViewById(R.id.alertDialogText);
+        final Button cancelBtn = (Button)view.findViewById(R.id.alertDialogConcelBtn);
+        final Button confirmBtn = (Button)view.findViewById(R.id.alertDialogConfirmBtn);
+        final TextView textView = (TextView)view.findViewById(R.id.alertDialogText);
 
-        textView.setText("文件成功导出，路径为 \n \""+ path + "\" ");
-        cancelBtn.setVisibility(View.INVISIBLE);
+        textView.setText("文件成功导出，路径为\n \"" + path + "\" ");
+        cancelBtn.setBackgroundResource(R.drawable.alert_dialog_down_btn);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //获取wifi服务
+                WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+                //判断wifi是否开启
+                if (!wifiManager.isWifiEnabled()) {
+                    textView.setText("请打开WIFI");
+                } else {
+                    WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                    int ipAddress = wifiInfo.getIpAddress();
+                    String ip = intToIp(ipAddress);
+                    if (ip.equals("0.0.0.0")) {
+                        textView.setText("请链接上无线WIFI");
+                    } else {
+                        cancelBtn.setClickable(false);
+                        cancelBtn.setVisibility(View.INVISIBLE);
+                        confirmBtn.setBackgroundResource(R.drawable.alert_dialog_confirm_btn_2);
+                        wakeLock.acquire();
+                        DownloadServer.getDownloadSever(ip);
+                        textView.setText("请打开同局域网内的电脑浏览器，并在地址栏输入 \"" + ip + ":8080\"");
+                    }
+                }
+
+            }
+        });
+
+        confirmBtn.setBackgroundResource(R.drawable.alert_dialog_complete_btn);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(wakeLock.isHeld())
+                    wakeLock.release();
                 dialog.dismiss();
                 RecordActivity.this.finish();
             }
@@ -187,5 +223,13 @@ public class RecordActivity extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setLayout(758, 374);
 
+    }
+
+    private String intToIp(int i) {
+
+        return (i & 0xFF ) + "." +
+                ((i >> 8 ) & 0xFF) + "." +
+                ((i >> 16 ) & 0xFF) + "." +
+                ( i >> 24 & 0xFF) ;
     }
 }

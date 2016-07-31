@@ -1,10 +1,14 @@
 package com.ve.boxmanage;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Environment;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +28,7 @@ import Util.Util;
 import Compent.ViewForBoxlistAct;
 import Util.ExcelUtil;
 import bean.Box;
-import bean.Person;
+import Util.DownloadServer;
 import database.DBManager;
 
 public class BoxlistActivity extends AppCompatActivity {
@@ -36,6 +40,9 @@ public class BoxlistActivity extends AppCompatActivity {
 
     DBManager dbm;
     List<Box> boxList;
+
+    PowerManager powerManager;
+    PowerManager.WakeLock wakeLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,10 @@ public class BoxlistActivity extends AppCompatActivity {
         boxList = dbm.queryBoxGroupByType();
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("BOXMANAGE", MODE_PRIVATE);
+
+        powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK,"My Lock");
+
 
         titleText.setText(sharedPreferences.getString("PersonName", null)+"箱柜总览");
 
@@ -91,8 +102,8 @@ public class BoxlistActivity extends AppCompatActivity {
             public void onClick(View v) {
                 List<Box> list = dbm.queryBox();
                 Collections.sort(list);
-                String fileName = ExcelUtil.boxExport(Environment.getExternalStorageDirectory().toString(), "箱柜列表_"+ Util.getDataFormat().format(new Date(System.currentTimeMillis()))+".xls", list);
-                exportCompleteDialog(fileName);
+                String path = ExcelUtil.boxExport(Environment.getExternalStorageDirectory().toString()+"/Records", "箱柜列表_"+ Util.getDataFormat().format(new Date(System.currentTimeMillis()))+".xls", list);
+                exportCompleteDialog(path);
             }
         });
 
@@ -133,22 +144,56 @@ public class BoxlistActivity extends AppCompatActivity {
     }
 
 
-    protected  void exportCompleteDialog(String path){
+    protected  void exportCompleteDialog(final String path){
 
         final AlertDialog dialog = new AlertDialog.Builder(BoxlistActivity.this).create();
         LayoutInflater inflater = LayoutInflater.from(BoxlistActivity.this);
         View view = inflater.inflate(R.layout.compent_for_dialog_export, null);
         dialog.setView(view);
 
-        Button cancelBtn = (Button)view.findViewById(R.id.alertDialogConcelBtn);
-        Button confirmBtn = (Button)view.findViewById(R.id.alertDialogConfirmBtn);
-        TextView textView = (TextView)view.findViewById(R.id.alertDialogText);
+        final Button cancelBtn = (Button)view.findViewById(R.id.alertDialogConcelBtn);
+        final Button confirmBtn = (Button)view.findViewById(R.id.alertDialogConfirmBtn);
+        final TextView textView = (TextView)view.findViewById(R.id.alertDialogText);
 
-        textView.setText("文件成功导出，路径为\n \""+ path + "\" ");
-        cancelBtn.setVisibility(View.INVISIBLE);
+        textView.setText("文件成功导出，路径为\n \"" + path + "\" ");
+        cancelBtn.setBackgroundResource(R.drawable.alert_dialog_down_btn);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //获取wifi服务
+                WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+                //判断wifi是否开启
+                if (!wifiManager.isWifiEnabled()) {
+                    textView.setText("请打开WIFI");
+                } else {
+                    WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                    int ipAddress = wifiInfo.getIpAddress();
+                    String ip = intToIp(ipAddress);
+                    if (ip.equals("0.0.0.0")) {
+                        textView.setText("请链接上无线WIFI");
+                    } else {
+                        cancelBtn.setClickable(false);
+                        cancelBtn.setVisibility(View.INVISIBLE);
+                        confirmBtn.setBackgroundResource(R.drawable.alert_dialog_confirm_btn_2);
+
+                        //屏幕常亮
+                        wakeLock.acquire();
+
+                        DownloadServer.getDownloadSever(ip);
+                        textView.setText("请打开同局域网内的电脑浏览器，并在地址栏输入 \"" + ip + ":8080\"");
+                    }
+                }
+
+            }
+        });
+
+        confirmBtn.setBackgroundResource(R.drawable.alert_dialog_complete_btn);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(wakeLock.isHeld())
+                    wakeLock.release();
                 dialog.dismiss();
                 BoxlistActivity.this.finish();
             }
@@ -157,9 +202,19 @@ public class BoxlistActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
         dialog.getWindow().setLayout(758, 374);
-
-
     }
 
+
+
+
+
+
+    private String intToIp(int i) {
+
+        return (i & 0xFF ) + "." +
+                ((i >> 8 ) & 0xFF) + "." +
+                ((i >> 16 ) & 0xFF) + "." +
+                ( i >> 24 & 0xFF) ;
+    }
 
 }

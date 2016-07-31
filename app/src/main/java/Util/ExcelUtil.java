@@ -23,6 +23,10 @@ import jxl.write.biff.RowsExceededException;
 public class ExcelUtil {
 
     public static String itemExport(String filePath,String fileName,List<Item> list){
+        File fileDir = new File(filePath);
+        if (!fileDir .exists()  && !fileDir .isDirectory()){
+            fileDir.mkdir();
+        }
         try {
             String[] tileArray = new String[]{"日期","时间","品牌","型号","类型","备注","操作者","箱柜号","动作/去向"};
             File file = new File((filePath+"/"+fileName));

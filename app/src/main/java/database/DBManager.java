@@ -426,6 +426,14 @@ public class DBManager {
         c.close();
         return list;
     }
-    
+
+
+    public List<String> getRecommendType(String keyWord){
+        List<String> list = new LinkedList<String>();
+        Cursor c = db.rawQuery("SELECT type FROM (SELECT type,_id FROM box GROUP BY type) WHERE type LIKE ? ORDER BY _id DESC",new String[]{"%"+keyWord+"%"});
+        while (c.moveToNext())
+            list.add(c.getString(c.getColumnIndex("type")));
+        return list;
+    }
 
 }

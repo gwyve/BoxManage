@@ -229,7 +229,22 @@
             android:id="@+id/putinActNextBtn" />
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="515dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:id="@+id/putin_act_recommad_layout">
 
+        </LinearLayout>
+    </LinearLayout>
 
 
 

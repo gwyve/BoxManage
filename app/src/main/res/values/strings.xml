@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BoxManage</string>
+    <string name="app_name">仓储管理系统</string>
     <string name="super_id">SUPER</string>
     <string name="super_password">SUPER</string>
     <integer name="box_total_number">15</integer>
