@@ -3,6 +3,7 @@ package com.ve.boxmanage;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
@@ -33,7 +34,7 @@ import Util.DownloadServer;
 
 public class RecordActivity extends AppCompatActivity {
 
-
+    TextView titleText;
     Button backBtn;
     Button exportBtn;
     LinearLayout tableLayout;
@@ -55,6 +56,7 @@ public class RecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
+        titleText = (TextView)findViewById(R.id.recordActLeftTopTitleTextView);
         backBtn = (Button)findViewById(R.id.recordActBackBtn);
         exportBtn = (Button)findViewById(R.id.recordActExportBtn);
         tableLayout = (LinearLayout) findViewById(R.id.recordActTableLayout);
@@ -63,6 +65,10 @@ public class RecordActivity extends AppCompatActivity {
         editText = (EditText)findViewById(R.id.recordActPageEditView);
 
         dbm = new DBManager(this);
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("BOXMANAGE", MODE_PRIVATE);
+        titleText.setText(sharedPreferences.getString("PersonName", null)+"记录列表");
+
         currentPage = 1;
         totalPage = (int) Math.ceil((double)dbm.getItemCount()/getResources().getInteger(R.integer.page_size));
 

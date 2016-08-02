@@ -71,6 +71,10 @@ public class ExcelUtil {
 
 
     public static String boxExport(String filePath,String fileName,List<Box> list){
+        File fileDir = new File(filePath);
+        if (!fileDir .exists()  && !fileDir .isDirectory()){
+            fileDir.mkdir();
+        }
         try {
             String[] tileArray = new String[]{"箱柜号","品牌","型号","类型","备注","数量"};
             File file = new File((filePath+"/"+fileName));
